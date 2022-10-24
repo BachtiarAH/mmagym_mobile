@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
+import 'package:text_area/text_area.dart';
+import 'package:web_date_picker/web_date_picker.dart';
+// import 'package:responsive';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -13,6 +16,21 @@ class _RegisterState extends State<Register> {
   // ignore: prefer_final_fields
   String _gender = "laki";
   double gap = 14;
+  GlobalKey registerKey = GlobalKey();
+  
+  var reasonValidation;
+  
+  var KontrolerNama;
+  
+  var KontrolerEmail;
+  
+  DateTime? TanggalLahir;
+  
+  var KontrolerAlamat;
+  
+  var KontrolerPassword;
+  
+  var KontrolerConfirmPassword;
 
   //fungsi pilih agaman
   void _pilihGender(String value) {
@@ -24,7 +42,9 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         body: Form(
+          key: registerKey,
       child: ListView(
         children: [
           Container(
@@ -41,6 +61,7 @@ class _RegisterState extends State<Register> {
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 21),
               child: TextField(
+                controller: KontrolerNama,
                 decoration: Komponens().getInputDecoration(labelText: "Name"),
               )),
 
@@ -50,6 +71,7 @@ class _RegisterState extends State<Register> {
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 21),
               child: TextField(
+                controller: KontrolerEmail,
                 keyboardType: TextInputType.emailAddress,
                 decoration: Komponens().getInputDecoration(labelText: "Email"),
               )),
@@ -58,16 +80,27 @@ class _RegisterState extends State<Register> {
 
           //row gender dan umur
           Container(
+            alignment: Alignment.center,
             // width: max,
             height: 56,
             margin: const EdgeInsets.symmetric(horizontal: 21),
             child: Row(
               children: [
+                //gender
                 Container(
                     // width: 105,
-                    color: Colors.grey,
+                    
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color.fromARGB(28, 0, 0, 0)),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(255, 245, 245, 245),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     margin: const EdgeInsets.only(left: 17, right: 17),
                     child: DropdownButton(
+                      // underline: null,
+                      style: TextStyle(decoration: TextDecoration.none),
+                        borderRadius: BorderRadius.circular(20),
                         onChanged: (String? value) {
                           _pilihGender(value!);
                         },
@@ -81,13 +114,15 @@ class _RegisterState extends State<Register> {
 
                 //tanggal lahir
                 Container(
-                  width: 200,
-                  // margin: const EdgeInsets.,
-                  child: TextField(
-                    decoration: Komponens()
-                        .getInputDecoration(labelText: "tanggal lahir"),
-                  ),
-                )
+                    alignment: Alignment.topRight,
+                    width: 200,
+                    // margin: const EdgeInsets.,
+                    child: Center(
+                        child: WebDatePicker(
+                      onChange: (value) {
+                        TanggalLahir = value;
+                      },
+                    )))
               ],
             ),
           ),
@@ -98,10 +133,17 @@ class _RegisterState extends State<Register> {
 
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 21),
-            height: 155,
-            child: TextField(
-              decoration: Komponens().getInputDecoration(labelText: "Almat"),
-            ),
+            // height: 155,
+            child: TextArea(
+                textEditingController: KontrolerAlamat,
+                  borderRadius: 10,
+                  borderColor: const Color(0xFFCFD6FF),
+                  // textEditingController: myTextController,
+                  // suffixIcon: Icons.attach_file_rounded,
+                  onSuffixIconPressed: () => {},
+                  validation: true,
+                  errorText: 'Please type a reason!',
+                ),
           ),
 
           Padding(padding: EdgeInsets.only(top: gap)),
@@ -110,8 +152,10 @@ class _RegisterState extends State<Register> {
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 21),
               child: TextField(
+                controller: KontrolerPassword,
                 obscureText: true,
-                decoration: Komponens().getInputDecoration(labelText: "password"),
+                decoration:
+                    Komponens().getInputDecoration(labelText: "password"),
               )),
 
           Padding(padding: EdgeInsets.only(top: gap)),
@@ -120,9 +164,19 @@ class _RegisterState extends State<Register> {
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 21),
               child: TextField(
+                controller: KontrolerConfirmPassword,
                 obscureText: true,
-                decoration: Komponens().getInputDecoration(labelText: "Confirm Password"),
+                decoration: Komponens()
+                    .getInputDecoration(labelText: "Confirm Password"),
               )),
+
+          Padding(padding: EdgeInsets.only(top: gap)),
+
+          //tombol save
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 21),
+            child: ElevatedButton(onPressed: () {}, child: Text("Save")),
+          )
         ],
       ),
     ));

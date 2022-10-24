@@ -41,7 +41,7 @@ class Komponens extends StatelessWidget {
         ),
         hintText: hintText,
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color.fromRGBO(0, 0, 0, 0)),
+            borderSide: BorderSide(color: Color.fromARGB(28, 0, 0, 0),style: BorderStyle.solid),
             borderRadius: BorderRadius.all(Radius.circular(20))));
   }
 }
