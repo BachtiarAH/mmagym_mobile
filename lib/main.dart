@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
-import 'package:mmagym_mobile/view/register.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {

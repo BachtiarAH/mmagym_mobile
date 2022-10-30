@@ -1,11 +1,15 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
@@ -15,7 +19,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Home(),
+          home: const Home(),
         );
       },
       maxTabletWidth: 900, // Optional
@@ -24,6 +28,8 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +67,8 @@ class Home extends StatelessWidget {
             style: TextStyle(fontSize: 12.sp),
           ),
           Device.orientation == Orientation.portrait
-              ? Text("My orientation is Portrait")
-              : Text("My orientation is Landscape"),
+              ? const Text("My orientation is Portrait")
+              : const Text("My orientation is Landscape"),
           Text(screenTypeText),
         ],
       ),
@@ -77,7 +83,7 @@ class tes extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Container(
+        SizedBox(
           height: 200,
           child: ListView(),
         )
