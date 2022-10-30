@@ -15,9 +15,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-
     //data
     var data = ["Dada Menegah", "Dada lanjutan", "dada pemula"];
+    var hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 
     //list widget
     List<Widget> listLatihan = [];
@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
     double CardMenuLatHeigh = ContMenuLatHeigh * 40 / 100;
 
     double CardMenuLatihanWidth = Adaptive.w(95);
+    double CardMenulatihanImgHigh = CardMenuLatHeigh;
 
     double LayoutRiwayatHeigh = Adaptive.h(30);
     double LayoutRiwayatWidth = Adaptive.w(100);
@@ -129,7 +130,7 @@ class _HomeState extends State<Home> {
                         bottomRight: Radius.circular(0),
                       ),
                     ),
-                    child: const FlutterLogo(size: 91),
+                    child: const FlutterLogo(),
                   ),
                 ),
               ),
@@ -193,25 +194,72 @@ class _HomeState extends State<Home> {
           Padding(padding: EdgeInsets.only(top: 1.h)),
 
           //jadwal
-          Container(
-            height: Adaptive.h(29.43), // or 12.5.h
-            width: 50.w,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 5,
-                  color: Color(0xE6E6E6E6),
+          Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Container(
+                height: Adaptive.h(29.43), // or 12.5.h
+                width: 50.w,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 5,
+                      color: Color(0xE6E6E6E6),
+                    ),
+                    BoxShadow(
+                      offset: Offset(1, 2),
+                      blurRadius: 5,
+                      spreadRadius: 2,
+                      color: Colors.grey,
+                      inset: true,
+                    ),
+                  ],
                 ),
-                BoxShadow(
-                  offset: Offset(1, 2),
-                  blurRadius: 5,
-                  spreadRadius: 2,
-                  color: Colors.grey,
-                  inset: true,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: hari.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 57,
+                        ),
+                        Text(hari[index]),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3.w),
+                          width: 113,
+                          height: 154,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 5,
+                                  color: Color(0xE6E6E6E6),
+                                ),
+                                BoxShadow(
+                                  offset: Offset(1, 2),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
+                                  color: Colors.grey,
+                                  inset: false,
+                                ),
+                              ]),
+                          child: FlutterLogo(size: 113),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+              Container(
+                  margin: EdgeInsets.only(top: 19, left: 14),
+                  child: Text(
+                    "Jadual",
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  )),
+            ],
           ),
 
           //pemisah
@@ -222,7 +270,9 @@ class _HomeState extends State<Home> {
               width: LayoutRiwayatWidth,
               height: LayoutRiwayatHeigh,
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 5,
