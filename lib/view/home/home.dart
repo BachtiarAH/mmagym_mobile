@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Home extends StatefulWidget {
@@ -64,7 +65,12 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
-            onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_outlined)),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => QrScanner(),
+              ));
+            },
+            icon: const Icon(Icons.qr_code_scanner_outlined)),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
       ),
       body: ListView(
@@ -99,7 +105,10 @@ class _HomeState extends State<Home> {
                       if (index < 1) {
                         return Container(
                             margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
-                            child: Text("Menu Latihan", style: TextStyle(fontSize: 20),));
+                            child: Text(
+                              "Menu Latihan",
+                              style: TextStyle(fontSize: 20),
+                            ));
                       }
                       return Container(
                         margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
@@ -328,11 +337,11 @@ class _HomeState extends State<Home> {
               itemBuilder: (context, index) {
                 if (index < 1) {
                   return Container(
-                  margin: EdgeInsets.only(left: 4.5.w, top: 2.h),
-                  child: Text(
-                    "Riwayat Latihan",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  ));
+                      margin: EdgeInsets.only(left: 4.5.w, top: 2.h),
+                      child: Text(
+                        "Riwayat Latihan",
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ));
                 } else {
                   return ListTile(
                     leading: FlutterLogo(size: 40),
