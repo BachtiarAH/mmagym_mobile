@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -71,7 +72,15 @@ class _HomeState extends State<Home> {
               ));
             },
             icon: const Icon(Icons.qr_code_scanner_outlined)),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Profil(),
+                ));
+              },
+              icon: const Icon(Icons.person))
+        ],
       ),
       body: ListView(
         children: [
