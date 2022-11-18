@@ -41,6 +41,7 @@ dependencies:
   text_area: ^0.0.3
   flutter_inset_box_shadow: ^1.0.8
   mobile_scanner: ^2.0.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
