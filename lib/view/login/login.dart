@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
+import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 
@@ -118,7 +119,9 @@ class _LoginState extends State<Login> {
                   children: [
                     Text("Do not have account?"),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Register()));
+                      },
                       child: Text("Register",
                           style:
                               TextStyle(color: Color.fromARGB(255, 160, 162, 0))),
