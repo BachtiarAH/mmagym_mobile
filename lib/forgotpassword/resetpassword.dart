@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
+import 'package:mmagym_mobile/view/login/login.dart';
 import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class ResetPassword extends StatelessWidget {
+   ResetPassword({super.key});
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +29,26 @@ class _LoginState extends State<Login> {
                   height: 32,
                 ),
                 Text(
-                  'Login',
+                  'Reset Your Password',
                   style: TextStyle(fontSize: 40),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Enter Your Password',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 35,
                 ),
                 TextFormField(
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Field tidak boleh kosong";
@@ -48,7 +58,9 @@ class _LoginState extends State<Login> {
                   decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 245, 245, 245),
                       filled: true,
-                      label: Text("Email"),
+
+                      
+                      label: Text("New Password"),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       focusedBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -65,7 +77,7 @@ class _LoginState extends State<Login> {
                   decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 245, 245, 245),
                       filled: true,
-                      label: Text("Password"),
+                      label: Text("Confirm New Password"),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       focusedBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -80,20 +92,7 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPass()));},
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.black),
-                        )),
-                  ],
-                ),
+              
                 SizedBox(
                   height: 25,
                 ),
@@ -101,34 +100,18 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                   if (_formKey.currentState!.validate()){
                       Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Home()));
+                        .push(MaterialPageRoute(builder: (context) => Login()));
                   }
                   
                   },
-                  child: Text("Login"),
+                  child: Text("Submit"),
                   style: ElevatedButton.styleFrom(
                       primary: generateMaterialColor(
                           color: Color.fromARGB(255, 67, 67, 67)),
                       // shape: StadiumBorder(),
                       minimumSize: Size(MediaQuery.of(context).size.width, 50)),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Do not have account?"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Register()));
-                      },
-                      child: Text("Register",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 160, 162, 0))),
-                    )
-                  ],
-                )
+                
               ]),
             ),
           ),
