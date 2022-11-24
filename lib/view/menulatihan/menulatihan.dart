@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/menulatihan/videoPlayer2.dart';
-import 'package:mmagym_mobile/view/menulatihan/videomenulatihan.dart';
 import 'package:video_player/video_player.dart';
 
 class menulatihan extends StatefulWidget {
@@ -69,7 +68,7 @@ class _menulatihanState extends State<menulatihan> {
         title: const Text(
           "Nama Menu Latihan",
           style: TextStyle(
-            fontSize: 23,
+            fontSize: 22,
           ),
           textAlign: TextAlign.center,
         ),
