@@ -17,14 +17,14 @@ class menulatihan extends StatefulWidget {
 class _menulatihanState extends State<menulatihan> {
   String? _valhari;
 
-  List _listhari = [
-    "senin",
-    "selasa",
-    "rabu",
-    "kamis",
-    "jumat",
-    "sabtu",
-    "minggu"
+  final List _listhari = [
+    "SENIN",
+    "SELASA",
+    "RABU",
+    "KAMIS",
+    "JUMAT",
+    "SABTU",
+    "MINGgu"
   ];
 
   @override
@@ -33,45 +33,61 @@ class _menulatihanState extends State<menulatihan> {
       appBar: AppBar(
         elevation: 5,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
 
         //dropdown
         actions: [
-          DropdownButton(
-            icon: Icon(
-              Icons.calendar_today_outlined,
-              color: Colors.black,
-            ),
-            value: _valhari,
-            items: _listhari.map((value) {
-              return DropdownMenuItem(
-                child: Text(value),
-                value: value,
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _valhari = value as String?;
-              });
-            },
+          Row(
+            children: [
+              DropdownButton(
+                icon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.calendar_today_outlined,
+                    color: Colors.black,
+                    size: 26,
+                  ),
+                ),
+                value: _valhari,
+                items: _listhari.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  // setState(() {
+                  //   _valhari = value as String?;
+                  // });
+                },
+              ),
+            ],
           ),
         ],
         title: const Text(
           "Nama Menu Latihan",
-          style: TextStyle(fontSize: 23),
+          style: TextStyle(
+            fontSize: 23,
+          ),
           textAlign: TextAlign.center,
         ),
-        foregroundColor: Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
         centerTitle: false,
-        backgroundColor: Color.fromARGB(255, 202, 202, 202),
+        backgroundColor: const Color.fromARGB(255, 202, 202, 202),
+        bottom: PreferredSize(
+          preferredSize: const Size(200, 4),
+          child: Container(
+            color: Colors.black,
+          ),
+        ),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 110,
+            height: MediaQuery.of(context).size.height * 15.89 / 100,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 202, 202, 202),
             ),
@@ -139,7 +155,7 @@ class _menulatihanState extends State<menulatihan> {
             ),
           ),
           const videoPlayer2(),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 302,
             // height: MediaQuery.of(context).size.height,
@@ -151,11 +167,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -176,11 +192,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -195,11 +211,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -214,11 +230,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -233,11 +249,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -252,11 +268,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -271,11 +287,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -290,11 +306,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(
@@ -309,11 +325,11 @@ class _menulatihanState extends State<menulatihan> {
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width,
                       height: 60,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: Row(
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(Icons.accessibility_new_sharp),
                           ),
                           Text(

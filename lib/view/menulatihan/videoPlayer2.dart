@@ -21,6 +21,7 @@ class _videoPlayer2State extends State<videoPlayer2> {
   }
 
   loadVideoPlayer() {
+    
     controller = VideoPlayerController.network(
         'https://www.fluttercampus.com/video.mp4');
     controller.addListener(() {
