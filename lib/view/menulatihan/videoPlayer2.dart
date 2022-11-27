@@ -6,7 +6,7 @@ import 'package:video_player/video_player.dart';
 
 class videoPlayer2 extends StatefulWidget {
   final String idVideo;
-  const videoPlayer2({super.key,required this.idVideo});
+  const videoPlayer2({super.key, required this.idVideo});
 
   @override
   State<videoPlayer2> createState() => _videoPlayer2State(this.idVideo);
@@ -15,18 +15,17 @@ class videoPlayer2 extends StatefulWidget {
 class _videoPlayer2State extends State<videoPlayer2> {
   late VideoPlayerController controller;
   String? IdVideo;
-  _videoPlayer2State( this.IdVideo);
+  _videoPlayer2State(this.IdVideo);
 
   @override
   void initState() {
-    loadVideoPlayer();
+    loadVideoPlayer(this.IdVideo);
     super.initState();
   }
 
-  loadVideoPlayer( ) {
-    
+  loadVideoPlayer(idVideo) {
     controller = VideoPlayerController.network(
-        'https://drive.google.com/uc?export=${this.IdVideo}');
+        'https://drive.google.com/uc?export=view&id=${idVideo}');
     controller.addListener(() {
       setState(() {});
     });
@@ -61,6 +60,50 @@ class _videoPlayer2State extends State<videoPlayer2> {
                   } else {
                     controller.play();
                   }
+
+                  setState(() {});
+                },
+                icon: Icon(controller.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow)),
+            IconButton(
+                onPressed: () {
+                  controller.seekTo(Duration(seconds: 0));
+
+                  setState(() {});
+                },
+                icon: Icon(Icons.stop))
+          ],
+        ),
+      )
+    ]));
+  }
+
+  Widget tes({required VideoPlayerController Controller}) {
+    return Container(
+        child: Column(children: [
+      AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        child: VideoPlayer(controller),
+      ),
+      VideoProgressIndicator(controller,
+          allowScrubbing: true,
+          colors: VideoProgressColors(
+            backgroundColor: Color.fromARGB(255, 227, 227, 227),
+            playedColor: Color.fromARGB(255, 255, 0, 0),
+            bufferedColor: Color.fromARGB(255, 153, 153, 153),
+          )),
+      Container(
+        child: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  if (controller.value.isPlaying) {
+                    controller.pause();
+                  } else {
+                    controller.play();
+                  }
+
 
                   setState(() {});
                 },
