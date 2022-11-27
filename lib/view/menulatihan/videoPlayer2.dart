@@ -5,14 +5,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:video_player/video_player.dart';
 
 class videoPlayer2 extends StatefulWidget {
-  const videoPlayer2({super.key});
+  final String idVideo;
+  const videoPlayer2({super.key,required this.idVideo});
 
   @override
-  State<videoPlayer2> createState() => _videoPlayer2State();
+  State<videoPlayer2> createState() => _videoPlayer2State(this.idVideo);
 }
 
 class _videoPlayer2State extends State<videoPlayer2> {
   late VideoPlayerController controller;
+  String? IdVideo;
+  _videoPlayer2State( this.IdVideo);
 
   @override
   void initState() {
@@ -20,10 +23,10 @@ class _videoPlayer2State extends State<videoPlayer2> {
     super.initState();
   }
 
-  loadVideoPlayer() {
+  loadVideoPlayer( ) {
     
     controller = VideoPlayerController.network(
-        'https://www.fluttercampus.com/video.mp4');
+        'https://drive.google.com/uc?export=${this.IdVideo}');
     controller.addListener(() {
       setState(() {});
     });
@@ -34,6 +37,7 @@ class _videoPlayer2State extends State<videoPlayer2> {
 
   @override
   Widget build(BuildContext context) {
+    String idVideo;
     return Container(
         child: Column(children: [
       AspectRatio(
