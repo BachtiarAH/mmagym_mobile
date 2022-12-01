@@ -23,7 +23,7 @@ class _menulatihanState extends State<menulatihan> {
     "KAMIS",
     "JUMAT",
     "SABTU",
-    "MINGgu"
+    "MINGGU"
   ];
 
   @override

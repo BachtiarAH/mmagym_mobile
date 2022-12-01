@@ -353,6 +353,7 @@ class _HomeState extends State<Home> {
                       ));
                 } else {
                   return ListTile(
+                    
                     leading: FlutterLogo(size: 40),
                     title: Text(Riwayat[index - 1][1]),
                     subtitle: Text(Riwayat[index - 1][2]),
