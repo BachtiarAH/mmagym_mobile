@@ -21,7 +21,7 @@ class _menulatihanState extends State<menulatihan> {
   late Future<IsiMenu> model;
   late IsiMEnuLatihanClient client = new IsiMEnuLatihanClient();
   late String idVideo = '';
-  late videoPlayer2 video ;
+  late videoPlayer2 video;
 
   final List _listhari = [
     "SENIN",
@@ -205,7 +205,7 @@ class _menulatihanState extends State<menulatihan> {
               if (snapshot.hasData) {
                 video = videoPlayer2(idVideo: snapshot.data!.body.isi[0].video);
                 return video;
-              } else if(snapshot.hasError){
+              } else if (snapshot.hasError) {
                 print(snapshot.error);
                 return Container(
                   height: 300,
@@ -223,7 +223,8 @@ class _menulatihanState extends State<menulatihan> {
                   ),
                 );
               }
-          },),
+            },
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 302,
@@ -257,6 +258,7 @@ class _menulatihanState extends State<menulatihan> {
                               setState(() {
                                 idVideo = snapshot.data!.body.isi[index].video;
                                 video = videoPlayer2(idVideo: idVideo);
+                                print(idVideo);
                               });
                             },
                           );
