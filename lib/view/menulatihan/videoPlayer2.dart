@@ -5,25 +5,27 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:video_player/video_player.dart';
 
 class videoPlayer2 extends StatefulWidget {
-  const videoPlayer2({super.key});
+  final String idVideo;
+  const videoPlayer2({super.key, required this.idVideo});
 
   @override
-  State<videoPlayer2> createState() => _videoPlayer2State();
+  State<videoPlayer2> createState() => _videoPlayer2State(this.idVideo);
 }
 
 class _videoPlayer2State extends State<videoPlayer2> {
   late VideoPlayerController controller;
+  String? IdVideo;
+  _videoPlayer2State(this.IdVideo);
 
   @override
   void initState() {
-    loadVideoPlayer();
+    loadVideoPlayer(this.IdVideo);
     super.initState();
   }
 
-  loadVideoPlayer() {
-    
+  loadVideoPlayer(idVideo) {
     controller = VideoPlayerController.network(
-        'https://www.fluttercampus.com/video.mp4');
+        'https://drive.google.com/uc?export=view&id=${idVideo}');
     controller.addListener(() {
       setState(() {});
     });
@@ -34,6 +36,7 @@ class _videoPlayer2State extends State<videoPlayer2> {
 
   @override
   Widget build(BuildContext context) {
+    String idVideo;
     return Container(
         child: Column(children: [
       AspectRatio(
@@ -57,6 +60,50 @@ class _videoPlayer2State extends State<videoPlayer2> {
                   } else {
                     controller.play();
                   }
+
+                  setState(() {});
+                },
+                icon: Icon(controller.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow)),
+            IconButton(
+                onPressed: () {
+                  controller.seekTo(Duration(seconds: 0));
+
+                  setState(() {});
+                },
+                icon: Icon(Icons.stop))
+          ],
+        ),
+      )
+    ]));
+  }
+
+  Widget tes({required VideoPlayerController Controller}) {
+    return Container(
+        child: Column(children: [
+      AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        child: VideoPlayer(controller),
+      ),
+      VideoProgressIndicator(controller,
+          allowScrubbing: true,
+          colors: VideoProgressColors(
+            backgroundColor: Color.fromARGB(255, 227, 227, 227),
+            playedColor: Color.fromARGB(255, 255, 0, 0),
+            bufferedColor: Color.fromARGB(255, 153, 153, 153),
+          )),
+      Container(
+        child: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  if (controller.value.isPlaying) {
+                    controller.pause();
+                  } else {
+                    controller.play();
+                  }
+
 
                   setState(() {});
                 },
