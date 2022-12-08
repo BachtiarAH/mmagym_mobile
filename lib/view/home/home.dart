@@ -6,6 +6,7 @@ import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -113,11 +114,38 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, index) {
                       if (index < 1) {
                         return Container(
-                            margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
-                            child: Text(
-                              "Menu Latihan",
-                              style: TextStyle(fontSize: 20),
-                            ));
+                          margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: <Color>[
+                                        Color(0xFF0D47A1),
+                                        Color(0xFF1976D2),
+                                        Color(0xFF42A5F5),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.all(16.0),
+                                  textStyle: const TextStyle(fontSize: 20),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => MenuLatihan(),
+                                  ));
+                                },
+                                child: const Text('Menu Latihan'),
+                              ),
+                            ],
+                          ),
+                        );
                       }
                       return Container(
                         margin: EdgeInsets.only(left: 4.5.w, top: 3.h),

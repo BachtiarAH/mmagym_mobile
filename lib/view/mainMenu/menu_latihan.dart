@@ -1,10 +1,11 @@
 import 'dart:html';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import 'MenuAlat.dart';
 import 'item.dart';
+import 'package:mmagym_mobile/view/home/home.dart';
+import 'package:mmagym_mobile/view/mainMenu/video.dart';
+import 'package:video_player/video_player.dart';
 
 const List<String> lists = <String>[
   'Beginner',
@@ -20,7 +21,12 @@ List<Item> items = [
   Item("assets/images/back.jpg", "Back", "Chest", "Intermediate"),
   Item("assets/images/arm.jpg", "Arm", "Arm", "Advance"),
 ];
-
+List<Item> gerakan = [
+  Item("assets/images/dada.jpg", "Chest", "Chest", "Beginner"),
+  Item("assets/images/sikil.jpg", "Leg", "Leg", "Pro"),
+  Item("assets/images/back.jpg", "Back", "Chest", "Intermediate"),
+  Item("assets/images/arm.jpg", "Arm", "Arm", "Advance"),
+];
 List<Alat> item = [
   Alat(
     "assets/images/chest.jpg",
@@ -174,7 +180,11 @@ class _MenuLatihanState extends State<MenuLatihan> {
         appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 53, 53, 53),
             leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Home(),
+                ));
+              },
               icon: const Icon(
                 Icons.arrow_back_rounded,
                 color: Colors.white70,
@@ -476,10 +486,77 @@ class _Latihan extends StatelessWidget {
   }
 }
 
-class _Gerakan extends StatelessWidget {
-  final Item _items;
+class VideoApp extends StatefulWidget {
+  const VideoApp({Key? key}) : super(key: key);
 
-  const _Gerakan(this._items);
+  @override
+  _VideoAppState createState() => _VideoAppState();
+}
+
+class _VideoAppState extends State<VideoApp> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/lilnas.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Video Demo',
+      home: Scaffold(
+        body: Center(
+          child: _controller.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                )
+              : Container(),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              _controller.value.isPlaying
+                  ? _controller.pause()
+                  : _controller.play();
+            });
+          },
+          child: Icon(
+            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+}
+
+class _Gerakan extends StatelessWidget {
+  final Item _gerakan;
+  VideoPlayerController _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/lilnas.mp4');
+  _Gerakan(this._gerakan);
+  void initState() {
+    // super.initState();
+    _controller = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/lilnas.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
 
   void _selectItem(BuildContext context) {
     // Navigator.push(
@@ -489,42 +566,66 @@ class _Gerakan extends StatelessWidget {
     //     ));
   }
 
+  insialisasiVideo() {
+    _controller = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/lilnas.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridTile(
         footer: GridTileBar(
-          title: Text(_items.name),
-          subtitle: Text(_items.description),
+          title: Text(_gerakan.name),
+          subtitle: Text(_gerakan.description),
           backgroundColor: Colors.black38,
         ),
         child: GestureDetector(
-          onTap: () => showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('AlertDialog Title'),
-              content: const Text('AlertDialog description'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                  child: const Text('Cancel'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          ),
+          onTap: () {
+            this.insialisasiVideo();
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('AlertDialog Title'),
+                content: Center(
+                    child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: Column(
+                    children: [
+                      Text('data'),
+                      Container(height: 100, child: VideoPlayer(_controller)),
+                      Icon(Icons.play_arrow)
+                    ],
+                  ),
+                )),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          },
           child: Hero(
-            key: Key(_items.imageUrl),
-            tag: _items.name,
+            key: Key(_gerakan.imageUrl),
+            tag: _gerakan.name,
             child: Image.network(
-              _items.imageUrl,
+              _gerakan.imageUrl,
               fit: BoxFit.cover,
             ),
           ),
         ));
   }
+
+  void setState(Null Function() param0) {}
 }
 
 class _Alat extends StatelessWidget {
