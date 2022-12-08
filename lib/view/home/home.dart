@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
+import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,8 +18,129 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  MenuLatihanClien restClient = MenuLatihanClien();
+  var data = List<String>;
+  late Future<MenuLatihanModel> MenuModel;
+
+  //dimensional
+  double ContMenuLatHeigh = Adaptive.h(39.5);
+  // ignore: unnecessary_this
+  double CardMenuLatHeigh() => ContMenuLatHeigh * 40 / 100;
+
+  double CardMenuLatihanWidth = Adaptive.w(95);
+  double CardMenulatihanImgHigh() => CardMenuLatHeigh();
+
+  double JadualHeigh = Adaptive.h(29.43);
+  double JadualWidth = 100.w;
+  double CardJadualHeigh() => JadualHeigh * 64 / 100;
+  double CardJadualWidth() => JadualWidth * 30 / 100;
+
+  double LayoutRiwayatHeigh = Adaptive.h(30);
+  double LayoutRiwayatWidth = Adaptive.w(100);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    MenuModel = restClient.getMenuLatihan();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget createCardMenuLatihan(
+        {required id,
+        required String NamaMenu,
+        required String level,
+        required String partBadan}) {
+      return Container(
+        margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
+        height: CardMenuLatHeigh(),
+        width: CardMenuLatihanWidth,
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              width: CardMenuLatihanWidth,
+              height: CardMenuLatHeigh(),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(0),
+                ),
+                color: Color(0xff434343),
+              ),
+              padding: const EdgeInsets.only(
+                left: 111,
+                right: 4,
+                top: 10,
+                bottom: 9,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    width: CardMenuLatihanWidth - CardMenuLatHeigh(),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      NamaMenu,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: CardMenuLatHeigh() * 40 / 100),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      partBadan,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 13),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      level,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: CardMenuLatHeigh(),
+                  height: CardMenuLatHeigh(),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(0),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(0),
+                    ),
+                  ),
+                  child: const FlutterLogo(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     //data
     var data = ["Dada Menegah", "Dada lanjutan", "dada pemula"];
     var hari = [
@@ -40,21 +163,6 @@ class _HomeState extends State<Home> {
 
     //list widget
     List<Widget> listLatihan = [];
-
-    //dimensional
-    double ContMenuLatHeigh = Adaptive.h(39.5);
-    double CardMenuLatHeigh = ContMenuLatHeigh * 40 / 100;
-
-    double CardMenuLatihanWidth = Adaptive.w(95);
-    double CardMenulatihanImgHigh = CardMenuLatHeigh;
-
-    double JadualHeigh = Adaptive.h(29.43);
-    double JadualWidth = 100.w;
-    double CardJadualHeigh = JadualHeigh * 64 / 100;
-    double CardJadualWidth = JadualWidth * 30 / 100;
-
-    double LayoutRiwayatHeigh = Adaptive.h(30);
-    double LayoutRiwayatWidth = Adaptive.w(100);
 
     return Scaffold(
       appBar: AppBar(
@@ -87,12 +195,25 @@ class _HomeState extends State<Home> {
         children: [
           //menu latiha
           Container(
+            child: TextButton(
+              onPressed: () {
+                restClient.getMenuLatihan();
+              },
+              child: Text(
+                "Main Menu",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+          Container(
               height: ContMenuLatHeigh, // or 12.5.h
               // width: 50.w,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
+                    bottomRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 5,
@@ -109,132 +230,30 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                   alignment: Alignment.topRight,
-                  child: ListView.builder(
-                    itemCount: data.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index < 1) {
-                        return Container(
-                          margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned.fill(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: <Color>[
-                                        Color(0xFF0D47A1),
-                                        Color(0xFF1976D2),
-                                        Color(0xFF42A5F5),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.all(16.0),
-                                  textStyle: const TextStyle(fontSize: 20),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => MenuLatihan(),
-                                  ));
-                                },
-                                child: const Text('Menu Latihan'),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return Container(
-                        margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
-                        height: CardMenuLatHeigh,
-                        width: CardMenuLatihanWidth,
-                        child: Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            Container(
-                              width: CardMenuLatihanWidth,
-                              height: CardMenuLatHeigh,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(0),
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(0),
-                                ),
-                                color: Color(0xff434343),
-                              ),
-                              padding: const EdgeInsets.only(
-                                left: 111,
-                                right: 4,
-                                top: 10,
-                                bottom: 9,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    width: 150.13,
-                                    child: Text(
-                                      data[index - 1],
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 13),
-                                  const SizedBox(
-                                    width: 33.60,
-                                    child: Text(
-                                      "chest",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 13),
-                                  const SizedBox(
-                                    width: 75.59,
-                                    child: Text(
-                                      "intermediete",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  width: 95.54,
-                                  height: 91,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5),
-                                      topRight: Radius.circular(0),
-                                      bottomLeft: Radius.circular(5),
-                                      bottomRight: Radius.circular(0),
-                                    ),
-                                  ),
-                                  child: const FlutterLogo(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ))),
+                  child: FutureBuilder(
+                      future: MenuModel,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.body.length,
+                            itemBuilder: (context, index) {
+                              return createCardMenuLatihan(
+                                  id: snapshot.data!.body[index].id,
+                                  NamaMenu: snapshot.data!.body[index].nama,
+                                  level: snapshot.data!.body[index].level,
+                                  partBadan:
+                                      snapshot.data!.body[index].bodyPart);
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          print("has Error ${snapshot.error}");
+                          return Text("error");
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }))),
 
           //pemisah
           Padding(padding: EdgeInsets.only(top: 1.h)),
@@ -276,8 +295,8 @@ class _HomeState extends State<Home> {
                         ),
                         Container(
                             margin: EdgeInsets.symmetric(horizontal: 3.w),
-                            width: CardJadualWidth,
-                            height: CardJadualHeigh,
+                            width: CardJadualWidth(),
+                            height: CardJadualHeigh(),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
@@ -307,7 +326,7 @@ class _HomeState extends State<Home> {
                                   bottom: 2,
                                   child: Container(
                                     alignment: Alignment.bottomCenter,
-                                    width: CardJadualWidth,
+                                    width: CardJadualWidth(),
                                     child: Text(
                                       hari[index][1],
                                       style: TextStyle(

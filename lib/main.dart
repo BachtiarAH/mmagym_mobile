@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
+import 'package:mmagym_mobile/view/menulatihan/menulatihan.dart';
+import 'package:mmagym_mobile/view/menulatihan/videomenulatihan.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "MMA Gym",
-      home: Home(),
+      home: menulatihan(),
     );
     },); 
     
