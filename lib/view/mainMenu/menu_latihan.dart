@@ -1,6 +1,9 @@
 import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
+import 'package:mmagym_mobile/models/menulatihan_model.dart';
+import 'package:mmagym_mobile/view/mainMenu/latihan.dart';
 import 'MenuAlat.dart';
 import 'item.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
@@ -81,43 +84,7 @@ class MyApp extends StatelessWidget {
 
 class MenuLatihan extends StatefulWidget {
   MenuLatihan({Key? key}) : super(key: key);
-  // final _items = [
-  //   ListView.builder(
-  //     itemCount: items.length,
-  //     itemBuilder: (BuildContext context, int position) =>
-  //         _Latihan(items[position]),
-  //   ),
-  //   GridView.count(
-  //     // Items in row
-  //     crossAxisCount: 2,
-  //     // Vertical spacing between rows
-  //     mainAxisSpacing: 10.0,
-  //     // Horizontal spacing between columns
-  //     crossAxisSpacing: 5.0,
-  //     // Padding of GridView
-  //     padding: const EdgeInsets.all(5.0),
-  //     // The ratio between the width and height of items
-  //     childAspectRatio: 0.75,
-  //     // List of items widgets
-  //     children:
-  //         items.map<Widget>((Item item) => _Gerakan(item)).toList(),
-  //   ),
-  //   GridView.count(
-  //     // Items in row
-  //     crossAxisCount: 2,
-  //     // Vertical spacing between rows
-  //     mainAxisSpacing: 10.0,
-  //     // Horizontal spacing between columns
-  //     crossAxisSpacing: 5.0,
-  //     // Padding of GridView
-  //     padding: const EdgeInsets.all(5.0),
-  //     // The ratio between the width and height of items
-  //     childAspectRatio: 0.75,
-  //     // List of items widgets
-  //     children:
-  //         items.map<Widget>((Item item) => _Alat(item)).toList(),
-  //   ),
-  // ];
+
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
   final _boxHeight = 705.0;
@@ -132,10 +99,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
   int _selectedIndex = 0;
   // ignore: prefer_final_fields
   static List<Widget> _widgetOption = <Widget>[
-    ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int position) =>
-            _Latihan(items[position])),
+    Latihan(),
     // GridView tab content Widget
     GridView.count(
       // Items in row
@@ -428,6 +392,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
 class _Latihan extends StatelessWidget {
   final Item _item;
+
   // final String level;
 
   const _Latihan(
@@ -455,14 +420,6 @@ class _Latihan extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      // trailing: Padding(
-      //   padding: const EdgeInsets.fromLTRB(375.0, 5.0, 0.0, 0.0),
-      //   child: Text(
-      //     _item.level,
-      //     maxLines: 2,
-      //     style: const TextStyle(),
-      //   ),
-      // ),
       subtitle: Padding(
         padding: const EdgeInsets.only(left: 365.0),
         child: Text(

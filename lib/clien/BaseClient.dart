@@ -2,12 +2,12 @@
 
 import "package:http/http.dart" as http;
 
-var baseUrl = "http://192.168.1.3/mmagym/src/public/";
+var baseUrl = "http://192.168.1.2/mmagym/src/public/";
 
-class BaseClient{
+class BaseClient {
   var client = http.Client();
 
-  dynamic get(String api)async{
+  dynamic get(String api) async {
     var url = baseUrl + api;
     var uri = Uri.parse(url);
 
@@ -18,7 +18,8 @@ class BaseClient{
       print("sumting wrong${response.statusCode}");
     }
   }
-  Future<dynamic> post()async{}
-  Future<dynamic> put()async{}
-  Future<dynamic> delete()async{}
+
+  Future<dynamic> post() async {}
+  Future<dynamic> put() async {}
+  Future<dynamic> delete() async {}
 }

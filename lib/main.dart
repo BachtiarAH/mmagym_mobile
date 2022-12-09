@@ -13,13 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(builder: (p0, p1, p2) {
-      return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "MMA Gym",
-      home: menulatihan(),
+    return ResponsiveSizer(
+      builder: (p0, p1, p2) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "MMA Gym",
+          home: Home(),
+        );
+      },
     );
-    },); 
-    
   }
 }

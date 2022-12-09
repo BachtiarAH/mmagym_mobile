@@ -1,15 +1,17 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//     final menulatihanModelMenu = menulatihanModelMenuFromJson(jsonString);
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+MenulatihanModelMenu menulatihanModelMenuFromJson(String str) =>
+    MenulatihanModelMenu.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String menulatihanModelMenuToJson(MenulatihanModelMenu data) =>
+    json.encode(data.toJson());
 
-class Welcome {
-  Welcome({
+class MenulatihanModelMenu {
+  MenulatihanModelMenu({
     required this.status,
     this.body,
   });
@@ -17,7 +19,8 @@ class Welcome {
   String status;
   List<Body>? body;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory MenulatihanModelMenu.fromJson(Map<String, dynamic> json) =>
+      MenulatihanModelMenu(
         status: json["status"],
         body: List<Body>.from(json["body"].map((x) => Body.fromJson(x))),
       );
