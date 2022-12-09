@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/clien/loginCLient.dart';
+import 'package:mmagym_mobile/models/StatusMessage.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -13,11 +15,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children:[ Container(
+      body: ListView(children: [
+        Container(
           padding: EdgeInsets.all(25),
           child: Center(
             child: Form(
@@ -38,6 +44,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: emailController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Field tidak boleh kosong";
@@ -60,6 +67,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 245, 245, 245),
@@ -98,11 +106,35 @@ class _LoginState extends State<Login> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                  if (_formKey.currentState!.validate()){
-                      Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Home()));
-                  }
-                  
+                    if (_formKey.currentState!.validate()) {
+                      Future<StatusMessage> stms = LoginClient().login(
+                          email: emailController.text,
+                          password: passwordController.text);
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return FutureBuilder(
+                              future: stms,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return AlertDialog(
+                                  title: Text('tes'),
+                                  content: Text(
+                                      snapshot.data!.message),
+                                );
+                                } else {
+                                  return AlertDialog(
+                                  title: Text('tes'),
+                                  content: Text(
+                                      "no data"),
+                                );
+                                }
+                              },
+                            );
+                          });
+                      // Navigator.of(context)
+                      //   .push(MaterialPageRoute(builder: (context) => Home()));
+                    }
                   },
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
@@ -120,19 +152,22 @@ class _LoginState extends State<Login> {
                     Text("Do not have account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Register()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()));
                       },
                       child: Text("Register",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 160, 162, 0))),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 160, 162, 0))),
                     )
                   ],
                 )
               ]),
             ),
           ),
-        ),]
-      ),
+        ),
+      ]),
     );
   }
 }
