@@ -31,7 +31,9 @@ class _LatihanState extends State<Latihan> {
       future: model,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          for (var i = 0; i < snapshot.data!.body.length; i++) {}
           return ListView.builder(
+            itemCount: snapshot.data!.body.length,
             itemBuilder: (context, index) {
               return ListTile(
                 //  isThreeLine: true,

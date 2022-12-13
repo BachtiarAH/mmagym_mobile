@@ -1,13 +1,14 @@
-import 'dart:html';
-import 'dart:ui';
+// import 'dart:html';
+// import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
-import 'package:mmagym_mobile/models/menulatihan_model.dart';
+import 'package:mmagym_mobile/view/mainMenu/alat.dart';
+// import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
+// import 'package:mmagym_mobile/models/menulatihan_model.dart';
 import 'package:mmagym_mobile/view/mainMenu/latihan.dart';
 import 'MenuAlat.dart';
 import 'item.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
-import 'package:mmagym_mobile/view/mainMenu/video.dart';
+// import 'package:mmagym_mobile/view/mainMenu/video.dart';
 import 'package:video_player/video_player.dart';
 
 const List<String> lists = <String>[
@@ -99,7 +100,8 @@ class _MenuLatihanState extends State<MenuLatihan> {
   int _selectedIndex = 0;
   // ignore: prefer_final_fields
   static List<Widget> _widgetOption = <Widget>[
-    Latihan(),
+    const Latihan(),
+    AlatView(),
     // GridView tab content Widget
     GridView.count(
       // Items in row
@@ -601,21 +603,22 @@ class _Alat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridTile(
-        footer: GridTileBar(
-          title: Text(_item.name),
-          subtitle: Text(_item.description),
-          backgroundColor: Colors.black38,
-        ),
-        child: GestureDetector(
-          onTap: () => _selectItem(context),
-          child: Hero(
-            key: Key(_item.imageUrl),
-            tag: _item.name,
-            child: Image.network(
-              _item.imageUrl,
-              fit: BoxFit.cover,
-            ),
+      footer: GridTileBar(
+        title: Text(_item.name),
+        subtitle: Text(_item.description),
+        backgroundColor: Colors.black38,
+      ),
+      child: GestureDetector(
+        onTap: () => _selectItem(context),
+        child: Hero(
+          key: Key(_item.imageUrl),
+          tag: _item.name,
+          child: Image.network(
+            _item.imageUrl,
+            fit: BoxFit.cover,
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

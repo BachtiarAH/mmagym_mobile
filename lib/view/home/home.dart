@@ -197,7 +197,9 @@ class _HomeState extends State<Home> {
           Container(
             child: TextButton(
               onPressed: () {
-                restClient.getMenuLatihan();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MenuLatihan(),
+                ));
               },
               child: Text(
                 "Main Menu",
