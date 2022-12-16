@@ -8,6 +8,7 @@ import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+// import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 
 class Home extends StatefulWidget {
