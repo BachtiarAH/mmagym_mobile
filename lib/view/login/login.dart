@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/clien/loginCLient.dart';
 import 'package:mmagym_mobile/models/StatusMessage.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
+import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
 import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
@@ -94,7 +95,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPass()));},
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(color: Colors.black),
@@ -140,7 +141,7 @@ class _LoginState extends State<Login> {
                   style: ElevatedButton.styleFrom(
                       primary: generateMaterialColor(
                           color: Color.fromARGB(255, 67, 67, 67)),
-                      shape: StadiumBorder(),
+                      // shape: StadiumBorder(),
                       minimumSize: Size(MediaQuery.of(context).size.width, 50)),
                 ),
                 SizedBox(
