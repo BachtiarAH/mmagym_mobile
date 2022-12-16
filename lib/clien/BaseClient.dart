@@ -2,7 +2,9 @@
 
 import "package:http/http.dart" as http;
 
-var baseUrl = "http://10.10.174.49/mmagym/src/public/";
+
+var ip = '10.10.4.135';
+var baseUrl = "http://$ip/mmagym/src/public/";
 
 class BaseClient{
   var client = http.Client();

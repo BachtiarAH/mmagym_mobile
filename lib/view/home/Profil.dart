@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/view/login/login.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
 import 'package:text_area/text_area.dart';
 import 'package:web_date_picker/web_date_picker.dart';
@@ -49,7 +50,10 @@ class _ProfilState extends State<Profil> {
             "Profil",
             style: TextStyle(color: Colors.black, fontSize: 20),
           ),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+          actions: [IconButton(onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: 
+            (context) => Login(),));
+          }, icon: Icon(Icons.logout))],
         ),
         backgroundColor: Colors.white,
         body: Form(

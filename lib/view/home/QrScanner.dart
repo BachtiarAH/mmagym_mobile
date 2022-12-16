@@ -57,6 +57,7 @@ class QrScanner extends StatelessWidget {
               } else {
                 final String code = barcode.rawValue!;
                 debugPrint('Barcode found! $code');
+                
               }
             }));
   }

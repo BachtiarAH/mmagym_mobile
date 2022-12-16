@@ -108,33 +108,33 @@ class _LoginState extends State<Login> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Future<StatusMessage> stms = LoginClient().login(
-                          email: emailController.text,
-                          password: passwordController.text);
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return FutureBuilder(
-                              future: stms,
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return AlertDialog(
-                                  title: Text('tes'),
-                                  content: Text(
-                                      snapshot.data!.message),
-                                );
-                                } else {
-                                  return AlertDialog(
-                                  title: Text('tes'),
-                                  content: Text(
-                                      "no data"),
-                                );
-                                }
-                              },
-                            );
-                          });
-                      // Navigator.of(context)
-                      //   .push(MaterialPageRoute(builder: (context) => Home()));
+                      // Future<StatusMessage> stms = LoginClient().login(
+                      //     email: emailController.text,
+                      //     password: passwordController.text);
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return FutureBuilder(
+                      //         future: stms,
+                      //         builder: (context, snapshot) {
+                      //           if (snapshot.hasData) {
+                      //             return AlertDialog(
+                      //             title: Text('tes'),
+                      //             content: Text(
+                      //                 snapshot.data!.message),
+                      //           );
+                      //           } else {
+                      //             return AlertDialog(
+                      //             title: Text('tes'),
+                      //             content: Text(
+                      //                 "no data"),
+                      //           );
+                      //           }
+                      //         },
+                      //       );
+                      //     });
+                      Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Home()));
                     }
                   },
                   child: Text("Login"),
