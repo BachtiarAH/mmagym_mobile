@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:html';
 
 import 'package:http/http.dart' as http;
 import 'BaseClient.dart';
@@ -11,14 +12,8 @@ class GerakanClient {
     var body = json.encode({"id_menu": idMenu});
 
     // http.StreamedResponse response = await request.send();
-    String enpoin = baseUrl + 'api/alat/findAll';
-    var response = await http.post(
-      Uri.parse(enpoin),
-      body: body,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
+    String enpoin = baseUrl + 'api/gerakan/all';
+    var response = await http.get(Uri.parse(enpoin));
     // IsiMenu menu = await IsiMenu.fromJson(jsonDecode(response.body));
 
     if (response.statusCode == 200) {

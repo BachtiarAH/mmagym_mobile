@@ -2,6 +2,7 @@
 // import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/mainMenu/alat.dart';
+import 'package:mmagym_mobile/view/mainMenu/gerakan.dart';
 // import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 // import 'package:mmagym_mobile/models/menulatihan_model.dart';
 import 'package:mmagym_mobile/view/mainMenu/latihan.dart';
@@ -101,6 +102,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
   // ignore: prefer_final_fields
   static List<Widget> _widgetOption = <Widget>[
     const Latihan(),
+    Gerakan(),
     AlatView(),
     // GridView tab content Widget
     GridView.count(
