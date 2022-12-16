@@ -8,6 +8,7 @@ import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -82,7 +83,7 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    width: CardMenuLatihanWidth-CardMenuLatHeigh(),
+                    width: CardMenuLatihanWidth - CardMenuLatHeigh(),
                     alignment: Alignment.topLeft,
                     child: Text(
                       NamaMenu,
@@ -92,7 +93,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  SizedBox(height: CardMenuLatHeigh()*40/100),
+                  SizedBox(height: CardMenuLatHeigh() * 40 / 100),
                   Container(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -196,7 +197,9 @@ class _HomeState extends State<Home> {
           Container(
             child: TextButton(
               onPressed: () {
-                restClient.getMenuLatihan();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MenuLatihan(),
+                ));
               },
               child: Text(
                 "Main Menu",

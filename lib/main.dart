@@ -19,7 +19,5 @@ class MyApp extends StatelessWidget {
       title: "MMA Gym",
       home: Login(),
     );
-    },); 
-    
   }
 }
