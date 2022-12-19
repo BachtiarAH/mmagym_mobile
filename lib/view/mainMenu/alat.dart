@@ -29,15 +29,7 @@ class _AlatState extends State<AlatView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-          onPressed: () {
-            model = client.getAlat();
-          },
-          icon: Icon(Icons.refresh),
-        ),
-        FutureBuilder(
+    return FutureBuilder(
           future: model,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -86,8 +78,6 @@ class _AlatState extends State<AlatView> {
               );
             }
           },
-        ),
-      ],
-    );
+        );
   }
 }
