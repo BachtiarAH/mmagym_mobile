@@ -33,7 +33,7 @@ class _AlatState extends State<AlatView> {
       children: [
         IconButton(
           onPressed: () {
-            model = client.getAlat();
+            model = client.getAlatAll();
           },
           icon: Icon(Icons.refresh),
         ),
@@ -43,7 +43,7 @@ class _AlatState extends State<AlatView> {
             if (snapshot.hasData) {
               return GridView.builder(
                 itemCount: snapshot.data!.body!.length,
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     childAspectRatio: 3 / 2,
                     crossAxisSpacing: 20,

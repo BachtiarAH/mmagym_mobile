@@ -11,7 +11,7 @@ class GerakanClient {
     var body = json.encode({"id_menu": idMenu});
 
     // http.StreamedResponse response = await request.send();
-    String enpoin = baseUrl + 'api/alat/findAll';
+    String enpoin = baseUrl + 'api/gerakan/all';
     var response = await http.post(
       Uri.parse(enpoin),
       body: body,
@@ -28,5 +28,18 @@ class GerakanClient {
       print(response.reasonPhrase);
       throw http.ClientException;
     }
+  }
+
+  Future<GerakanModel> getGerakanAll() async {
+    var response = await http.get(Uri.parse(baseUrl + "api/gerakan/all"));
+    GerakanModel model = await GerakanModel.fromJson(jsonDecode(response.body));
+
+    if (response.statusCode == 200) {
+      return model;
+    } else {
+      throw http.ClientException;
+    }
+
+    // MenuLatihanModel model = MenuLatihanModel(status: response., body: body)
   }
 }

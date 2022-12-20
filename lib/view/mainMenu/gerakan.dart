@@ -18,7 +18,7 @@ class _GerakanState extends State<Gerakan> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    model = client.getGerakan();
+    model = client.getGerakanAll();
   }
 
   @override
@@ -29,7 +29,7 @@ class _GerakanState extends State<Gerakan> {
         if (snapshot.hasData) {
           return GridView.builder(
             itemCount: snapshot.data!.body!.length,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 childAspectRatio: 3 / 2,
                 crossAxisSpacing: 20,
