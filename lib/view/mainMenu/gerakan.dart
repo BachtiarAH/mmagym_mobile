@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:mmagym_mobile/clien/GerakanClient.dart';
 import 'package:mmagym_mobile/models/GerakanModel.dart';
 
-class Gerakan extends StatefulWidget {
-  const Gerakan({super.key});
+class GerakanView extends StatefulWidget {
+  const GerakanView({super.key});
 
   @override
-  State<Gerakan> createState() => _GerakanState();
+  State<GerakanView> createState() => _GerakanViewState();
 }
 
-class _GerakanState extends State<Gerakan> {
+class _GerakanViewState extends State<GerakanView> {
   late Future<GerakanModel> model;
   GerakanClient client = GerakanClient();
 
