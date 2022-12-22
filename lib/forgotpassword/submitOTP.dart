@@ -6,14 +6,13 @@ import 'package:mmagym_mobile/forgotpassword/resetpassword.dart';
 class SubmitOTP extends StatelessWidget {
   SubmitOTP({super.key});
   final _formKey = GlobalKey<FormState>();
-  String verificationCode= "";
-  
+  String verificationCode = "";
 
   @override
   Widget build(BuildContext context) {
     const snackBar = SnackBar(
-  content: Text('Yay! A SnackBar!'),
-);
+      content: Text('Yay! A SnackBar!'),
+    );
     return Scaffold(
         body: ListView(children: [
       Container(
@@ -66,26 +65,27 @@ class SubmitOTP extends StatelessWidget {
                         builder: (context) {
                           return AlertDialog(
                             title: Text("Verification Code"),
-                            content: Text('Code yang di input adalah $verificationCode'),
+                            content: Text(
+                                'Code yang di input adalah $verificationCode'),
                           );
                         });
                   }, // end onSubmit
                 ),
-            
                 SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     if (verificationCode != null || verificationCode.isEmpty) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ResetPassword()));
-                    }else{
-                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResetPassword()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       //  AlertDialog(
                       //       title: Text("Error"),
                       //       content: Text('OTP tidak boleh kosong'),
                       //     );
-                      }
-                    
+                    }
                   },
                   child: Text("Next"),
                   style: ElevatedButton.styleFrom(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/clien/RegisterClinet.dart';
+import 'package:mmagym_mobile/view/login/login.dart';
+import 'package:mmagym_mobile/view/register/otpRegister.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
 import 'package:text_area/text_area.dart';
 import 'package:web_date_picker/web_date_picker.dart';
+
+import '../models/registeModel.dart';
 // import 'package:responsive';
 
 class Register extends StatefulWidget {
@@ -15,9 +19,12 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   // Komponen komponen = new Komponen();
   // ignore: prefer_final_fields
+  var client = RegisterClient();
+  var model = RegisterModel(status: "fail", message: "belum melakukan register");
   String _gender = "laki";
   double gap = 14;
   GlobalKey registerKey = GlobalKey();
+  String pesanRegister = "loading...";
 
   var reasonValidation;
 
@@ -187,11 +194,19 @@ class _RegisterState extends State<Register> {
                       String alamat = KontrolerAlamat.text;
 
                       if (password == confirmPassword) {
-                        RegisterClient().postRegister(
-                            nama: nama,
-                            email: email,
-                            password: password,
-                            alamat: alamat);
+                        showDialog(
+                          
+                          context: context, builder: (context) {
+                          return AlertDialog(
+                            contentPadding: EdgeInsets.all(20),
+                            title: Text("Registering"),
+                            content: Container(
+                              height: 0.3 * MediaQuery.of(context).size.width,
+                              child: Center(child: Text(pesanRegister))),
+                          );
+                        },);
+                        // setPesan();
+                        sigUp(nama: nama, email: email, password: password, alamat: alamat, context: context);
                       } else {
                         showDialog(
                             context: context,
@@ -208,5 +223,31 @@ class _RegisterState extends State<Register> {
             ],
           ),
         ));
+  }
+
+  sigUp({required nama, required email , required password, required alamat, required context}) async{
+    this.model = await RegisterClient().postRegister(
+                            nama: nama,
+                            email: email,
+                            password: password,
+                            alamat: alamat);
+    if (!model.status.isEmpty) {
+      print("status : not empty {${model.status}}");
+      setState(() {
+        this.pesanRegister = model.status;
+      });
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => OtpRegister(email: email),));
+      setState(() {
+        this.pesanRegister = "loading...";
+      });
+    } else {
+      print("status : empty");
+    }
+  }
+
+  setPesan(){
+    setState(() {
+      this.pesanRegister = "pesan diganti";
+    });
   }
 }

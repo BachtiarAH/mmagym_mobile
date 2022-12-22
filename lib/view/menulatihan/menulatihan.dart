@@ -10,10 +10,13 @@ import 'package:mmagym_mobile/view/menulatihan/videomenulatihan.dart';
 import 'package:video_player/video_player.dart';
 
 class menulatihan extends StatefulWidget {
-  const menulatihan({super.key});
+  var idMenu;
+  
+  menulatihan({super.key,required this.idMenu});
+
 
   @override
-  State<menulatihan> createState() => _menulatihanState();
+  State<menulatihan> createState() => _menulatihanState(idMenu);
 }
 
 class _menulatihanState extends State<menulatihan> {
@@ -22,6 +25,11 @@ class _menulatihanState extends State<menulatihan> {
   late IsiMEnuLatihanClient client = new IsiMEnuLatihanClient();
   late String idVideo = '';
   late videoPlayer2 video;
+  late var _idMenu;
+
+  _menulatihanState(id_menu){
+    this._idMenu = id_menu;
+  }
 
   final List _listhari = [
     "SENIN",
@@ -30,13 +38,13 @@ class _menulatihanState extends State<menulatihan> {
     "KAMIS",
     "JUMAT",
     "SABTU",
-    "MINGgu"
+    "MINGGU"
   ];
 
   @override
   void initState() {
     // TODO: implement initState
-    model = client.getIsiMenu();
+    model = client.getIsiMenu(idMenu: this._idMenu);
     super.initState();
   }
 

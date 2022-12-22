@@ -6,6 +6,7 @@ import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
 import 'package:mmagym_mobile/clien/menulatihan_client.dart';
 import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/models/menulatihan_model.dart';
+import 'package:mmagym_mobile/view/menulatihan/menulatihan.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Latihan extends StatefulWidget {
@@ -40,12 +41,17 @@ class _LatihanState extends State<Latihan> {
                           return ListView.builder(
                             itemCount: snapshot.data!.body.length,
                             itemBuilder: (context, index) {
-                              return createCardMenuLatihan(
-                                  id: snapshot.data!.body[index].id,
-                                  NamaMenu: snapshot.data!.body[index].nama,
-                                  level: snapshot.data!.body[index].level,
-                                  partBadan:
-                                      snapshot.data!.body[index].bodyPart);
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => menulatihan(idMenu: snapshot.data!.body[index].id,)));
+                                },
+                                child: createCardMenuLatihan(
+                                    id: snapshot.data!.body[index].id,
+                                    NamaMenu: snapshot.data!.body[index].nama,
+                                    level: snapshot.data!.body[index].level,
+                                    partBadan:
+                                        snapshot.data!.body[index].bodyPart),
+                              );
                             },
                           );
                         } else if (snapshot.hasError) {
