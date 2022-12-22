@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/clien/loginClient.dart';
+import 'package:mmagym_mobile/models/loginModel.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
 import 'package:mmagym_mobile/view/register.dart';
@@ -14,6 +16,29 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+  late LoginModel model;
+  late loginClient client = new loginClient();
+  TextEditingController emailcontroller=TextEditingController();
+  TextEditingController passwordcontroller=TextEditingController();
+  Widget ContentPopup = CircularProgressIndicator();
+  //fungsi untuk login
+  login({required email,required password})async{
+
+    //mengirim request login
+    this.model = await client.getlogin(email: email,password: password);
+
+    if(!model.status.isEmpty){
+      if(model.status=="login success"){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home(),));
+      }else{
+        print("message : "+model.message);
+        setState(() {
+          this.ContentPopup = Text(model.message);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +64,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: emailcontroller,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Field tidak boleh kosong";
@@ -61,6 +87,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: passwordcontroller,
                   obscureText: true,
                   decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 245, 245, 245),
@@ -99,9 +126,16 @@ class _LoginState extends State<Login> {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    String email = emailcontroller.text;
+                    String password = passwordcontroller.text;
                   if (_formKey.currentState!.validate()){
-                      Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Home()));
+                    showDialog(context: context, builder: (context) {
+                      return AlertDialog(
+                        title: Text('login in'),
+                        content: ContentPopup,
+                      );
+                    },);
+                    login(email: email, password: password);
                   }
                   
                   },

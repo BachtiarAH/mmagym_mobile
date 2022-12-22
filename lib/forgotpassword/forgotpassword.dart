@@ -77,6 +77,22 @@ class ForgotPass extends StatelessWidget {
                       
                       minimumSize: Size(MediaQuery.of(context).size.width, 50)),
                 ),
+                
+                  SizedBox(height: 10),
+
+                 ElevatedButton(
+                  onPressed: () {
+                      Navigator.of(context).pop();
+                  
+                  
+                  },
+                  child: Text("Cancel"),
+                  style: ElevatedButton.styleFrom(
+                      primary: generateMaterialColor(
+                          color: Color.fromARGB(255, 67, 67, 67)),
+                      
+                      minimumSize: Size(MediaQuery.of(context).size.width, 50)),
+                ),
                   ])))
     ]));
   }

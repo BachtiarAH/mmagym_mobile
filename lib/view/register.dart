@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
 import 'package:text_area/text_area.dart';
 import 'package:web_date_picker/web_date_picker.dart';
+import 'package:mmagym_mobile/view/login/login.dart';
 // import 'package:responsive';
 
 class Register extends StatefulWidget {
@@ -44,7 +45,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: Colors.white,
         body: Form(
-          key: registerKey,
+          key: registerKey,         
       child: ListView(
         children: [
           Container(
@@ -52,9 +53,8 @@ class _RegisterState extends State<Register> {
             child: const Text(
               "Register",
               style: TextStyle(fontSize: 40),
-            ),
+            ),            
           ),
-
           Padding(padding: EdgeInsets.only(top: gap)),
 
           //form nama
@@ -100,6 +100,7 @@ class _RegisterState extends State<Register> {
                     child: DropdownButton(
                       // underline: null,
                       style: TextStyle(decoration: TextDecoration.none),
+                      dropdownColor: Colors.white70,
                         borderRadius: BorderRadius.circular(20),
                         onChanged: (String? value) {
                           _pilihGender(value!);
@@ -175,10 +176,31 @@ class _RegisterState extends State<Register> {
           //tombol save
           Container(
             margin: EdgeInsets.symmetric(horizontal: 21),
-            child: ElevatedButton(onPressed: () {}, child: Text("Save")),
+            child: ElevatedButton(
+              onPressed: () {}, 
+              child: Text("Save"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 67, 67, 67),
+            ),
+              ) ,
+              ),
+
+          Padding(padding: EdgeInsets.only(top: gap)),
+
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 21),
+            child: ElevatedButton(
+              onPressed: () {
+              Navigator.of(context).pop();
+            }, child: Text("Cancel"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 67, 67, 67),
+            ),
+            ),
           )
         ],
       ),
-    ));
+    ),
+    );
   }
 }
