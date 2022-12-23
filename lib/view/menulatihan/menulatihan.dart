@@ -6,7 +6,6 @@ import 'package:mmagym_mobile/clien/isiMenuLatihanClient.dart';
 import 'package:mmagym_mobile/models/IsiMenuModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/menulatihan/videoPlayer2.dart';
-import 'package:mmagym_mobile/view/menulatihan/videomenulatihan.dart';
 import 'package:video_player/video_player.dart';
 
 class menulatihan extends StatefulWidget {
@@ -39,6 +38,7 @@ class _menulatihanState extends State<menulatihan> {
     "KAMIS",
     "JUMAT",
     "SABTU",
+    "MINGGU"
     "MINGGU"
   ];
 
@@ -254,50 +254,191 @@ class _menulatihanState extends State<menulatihan> {
             width: MediaQuery.of(context).size.width,
             height: 302,
             // height: MediaQuery.of(context).size.height,
-            child: FutureBuilder(
-                future: model,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.body.isi.length,
-                      itemBuilder: (context, index) {
-                        try {
-                          return ListTile(
-                            leading: Image.network(
-                              'https://drive.google.com/uc?export=view&id=${snapshot.data!.body.isi[index].gambar}',
-                              height: 30,
-                              width: 30,
-                            ),
-                            title: Text(
-                                snapshot.data!.body.isi[index].namaGerakan),
-                            subtitle: Text(snapshot.data!.body.isi[index].note),
-                            trailing: Column(
-                              children: [
-                                Text(snapshot.data!.body.isi[index].repetisi
-                                    .toString()),
-                                Text(snapshot.data!.body.isi[index].setLatihan
-                                    .toString())
-                              ],
-                            ),
-                            onTap: () {
-                              setState(() {
-                                idVideo = snapshot.data!.body.isi[index].video;
-                                video = videoPlayer2(idVideo: idVideo);
-                                print(idVideo);
-                              });
-                            },
-                          );
-                        } catch (e) {
-                          return Text('error: ${e.toString()}');
-                        }
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }),
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                      // child: Text(
+                      //   "Bench Press",
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 20 ),
+                      // ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.accessibility_new_sharp),
+                          ),
+                          Text(
+                            "Brench Press",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),
