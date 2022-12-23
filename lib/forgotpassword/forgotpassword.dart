@@ -1,11 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:material_color_generator/material_color_generator.dart';
+import 'package:mmagym_mobile/clien/ResetPasswordClien.dart';
+import 'package:mmagym_mobile/forgotpassword/resetpassword.dart';
 import 'package:mmagym_mobile/forgotpassword/submitOTP.dart';
+import 'package:mmagym_mobile/models/ResetPasswordModel.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
-class ForgotPass extends StatelessWidget {
+class ForgotPass extends StatefulWidget {
   ForgotPass({super.key});
 
+  @override
+  State<ForgotPass> createState() => _ForgotPassState();
+}
+
+class _ForgotPassState extends State<ForgotPass> {
   final _formKey = GlobalKey<FormState>();
+  late ResetPasswordModel model;
+  var clien = ResetPasswordClien();
+  Widget ContentPopup = CircularProgressIndicator();
+  TextEditingController emailController = TextEditingController();
+
+  //sendOTP
+  sendOTP({required Email})async{
+    model = await clien.resetPassword(email: Email);
+
+    if(!model.status.isEmpty){
+      if(model.status=="login success"){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubmitOTP(),));
+      }else{
+        print("message : "+model.message);
+        setState(() {
+          this.ContentPopup = Text(model.message);
+        });
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +71,7 @@ class ForgotPass extends StatelessWidget {
                       height: 35,
                     ),
                     TextFormField(
+                      controller:  emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Field tidak boleh kosong";
@@ -66,11 +97,33 @@ class ForgotPass extends StatelessWidget {
                      ElevatedButton(
                   onPressed: () {
                   if (_formKey.currentState!.validate()){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SubmitOTP()));
+                      showDialog(context: context, builder: (context) {
+                        return AlertDialog(
+                          title: Text('loading'),content: ContentPopup,
+                        );
+                      },);
+
+                      sendOTP(Email: emailController.text);
                   }
                   
                   },
                   child: Text("Next"),
+                  style: ElevatedButton.styleFrom(
+                      primary: generateMaterialColor(
+                          color: Color.fromARGB(255, 67, 67, 67)),
+                      
+                      minimumSize: Size(MediaQuery.of(context).size.width, 50)),
+                ),
+                
+                  SizedBox(height: 10),
+
+                 ElevatedButton(
+                  onPressed: () {
+                      Navigator.of(context).pop();
+                  
+                  
+                  },
+                  child: Text("Cancel"),
                   style: ElevatedButton.styleFrom(
                       primary: generateMaterialColor(
                           color: Color.fromARGB(255, 67, 67, 67)),

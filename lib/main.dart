@@ -15,10 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (p0, p1, p2) {
       return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "MMA Gym",
-        home: Login(),
-      );
-    });
+        
+      debugShowCheckedModeBanner: false,
+      title: "MMA Gym",
+      home: Login(),
+    );
+    },); 
+    
   }
 }

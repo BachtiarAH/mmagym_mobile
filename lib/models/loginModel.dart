@@ -1,53 +1,55 @@
 // To parse this JSON data, do
 //
-//     final statusMessage = statusMessageFromJson(jsonString);
+//     final loginModel = loginModelFromJson(jsonString);
 
 import 'dart:convert';
 
-StatusMessage statusMessageFromJson(String str) => StatusMessage.fromJson(json.decode(str));
+LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str=""));
 
-String statusMessageToJson(StatusMessage data) => json.encode(data.toJson());
+String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
-class StatusMessage {
-    StatusMessage({
-        required this.status,
-        this.body,
-        this.message
+class LoginModel {
+  static const Body defaultBody = Body();
+
+    LoginModel({
+       required this.status,
+      this.body = const [defaultBody],
+      required this.message,
     });
 
     String status;
-    List<Body>? body;
-    String? message;
+    List<Body> body ;
+    String message;
 
-    factory StatusMessage.fromJson(Map<String, dynamic> json) => StatusMessage(
+    factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         status: json["status"],
         body: List<Body>.from(json["body"].map((x) => Body.fromJson(x))),
-        message: json['message']
+        message: json["message"],
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "body": List<dynamic>.from(body!.map((x) => x.toJson())),
-        "messsage": message
+        "body": List<dynamic>.from(body.map((x) => x.toJson())),
+        "message": message,
     };
 }
 
 class Body {
-    Body({
-        required this.id,
-        required this.nama,
-        required this.password,
-        required this.email,
-        required this.alamat,
-        required this.akses,
+    const Body({
+      this.id = 0,
+      this.nama = "",
+      this.password = "",
+      this.email = "",
+      this.alamat = "",
+      this.akses = 0,
     });
 
-    int id;
-    String nama;
-    String password;
-    String email;
-    String alamat;
-    int akses;
+    final int id;
+    final String nama;
+    final String password;
+    final String email;
+    final String alamat;
+    final int akses;
 
     factory Body.fromJson(Map<String, dynamic> json) => Body(
         id: json["id"],
