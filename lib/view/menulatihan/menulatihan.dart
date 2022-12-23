@@ -26,6 +26,7 @@ class _menulatihanState extends State<menulatihan> {
   late String idVideo = '';
   late videoPlayer2 video;
   late var _idMenu;
+  late VideoPlayerController _controller ;
 
   _menulatihanState(id_menu){
     this._idMenu = id_menu;
@@ -47,6 +48,22 @@ class _menulatihanState extends State<menulatihan> {
     model = client.getIsiMenu(idMenu: this._idMenu);
     super.initState();
   }
+
+  awalController(source){
+    _controller = VideoPlayerController.network(source)
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {});
+        });
+  }
+
+  gantiVideo(String source) {
+      _controller = VideoPlayerController.network(source)
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {});
+        });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -211,8 +228,8 @@ class _menulatihanState extends State<menulatihan> {
             future: model,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                video = videoPlayer2(idVideo: snapshot.data!.body.isi[0].video);
-                return video;
+                awalController("https://drive.google.com/uc?export=view&id="+snapshot.data!.body.isi[0].video);
+                return VideoPlayer(_controller);
               } else if (snapshot.hasError) {
                 print(snapshot.error);
                 return Container(
