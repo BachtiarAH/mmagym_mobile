@@ -23,16 +23,20 @@ class _ForgotPassState extends State<ForgotPass> {
   //sendOTP
   sendOTP({required Email})async{
     model = await clien.resetPassword(email: Email);
-
+    print(model.message);
     if(!model.status.isEmpty){
-      if(model.status=="login success"){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubmitOTP(),));
+      if(model.status=="success"){
+        // return value;
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SubmitOTP(email: Email,),));
       }else{
+        // return value;
         print("message : "+model.message);
         setState(() {
           this.ContentPopup = Text(model.message);
         });
       }
+
+      
     }
   }
 

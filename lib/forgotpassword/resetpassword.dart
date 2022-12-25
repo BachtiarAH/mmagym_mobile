@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/clien/ResetPasswordClien.dart';
+import 'package:mmagym_mobile/models/ResetPasswordModel.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
 import 'package:mmagym_mobile/view/login/login.dart';
@@ -6,10 +8,63 @@ import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 
-class ResetPassword extends StatelessWidget {
-   ResetPassword({super.key});
+class ResetPassword extends StatefulWidget {
+  late String email;
+  late String otp;
+   ResetPassword({super.key, required this.email, required this.otp});
+
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState(email: this.email, otp: this.otp);
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
+  late ResetPasswordModel model ;
+  var client = ResetPasswordClien();
 
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController conNewPass = TextEditingController();
+  TextEditingController conVerPass = TextEditingController();
+
+  late String email;
+  late String otp;
+
+  Widget contenButton = Text("submit");
+
+  _ResetPasswordState({required email, required otp}){
+    this.email = email;
+    this.otp = otp;
+  }
+
+  submitNewPasswrd({required pass }) async{
+    setState(() {
+      contenButton = CircularProgressIndicator();
+    });
+    model = await client.submitPassword(email: email, otp: otp, newPassword: pass);
+    setState(() {
+      contenButton = Text("submit");
+    });
+
+    if (!model.status.isEmpty) {
+      if (model.status == "success") {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Login(),));
+      } else {
+        showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          title: Text("gagal"),
+          content: Text(model.message),
+        );
+      },);
+      }
+    } else {
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          title: Text("gagal"),
+          content: Text("ada sesuatu yang salah"),
+        );
+      },);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +103,7 @@ class ResetPassword extends StatelessWidget {
                   height: 35,
                 ),
                 TextFormField(
+                  controller: conNewPass,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -73,6 +129,7 @@ class ResetPassword extends StatelessWidget {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: conVerPass,
                   obscureText: true,
                   decoration: InputDecoration(
                       fillColor: Color.fromARGB(255, 245, 245, 245),
@@ -99,8 +156,7 @@ class ResetPassword extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                   if (_formKey.currentState!.validate()){
-                      Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Login()));
+                      submitNewPasswrd(pass: conNewPass.text);
                   }
                   
                   },
