@@ -12,13 +12,7 @@ class AlatClient {
 
     // http.StreamedResponse response = await request.send();
     String enpoin = baseUrl + 'api/alat/findAll';
-    var response = await http.post(
-      Uri.parse(enpoin),
-      body: body,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
+    var response = await http.get(Uri.parse(enpoin));
     // IsiMenu menu = await IsiMenu.fromJson(jsonDecode(response.body));
 
     if (response.statusCode == 200) {

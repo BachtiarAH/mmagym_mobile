@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/mainMenu/alat.dart';
 import 'package:mmagym_mobile/view/mainMenu/gerakan.dart';
+import 'package:mmagym_mobile/view/mainMenu/gerakan.dart';
 // import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 // import 'package:mmagym_mobile/models/menulatihan_model.dart';
 import 'package:mmagym_mobile/view/mainMenu/latihan.dart';
@@ -102,8 +103,10 @@ class _MenuLatihanState extends State<MenuLatihan> {
   // ignore: prefer_final_fields
   static List<Widget> _widgetOption = <Widget>[
     const Latihan(),
-    const GerakanView(),
-    const AlatView(),
+    GerakanView(),
+    AlatView(),
+    // GerakanView(),
+    // AlatView(),
     // GridView tab content Widget
     GridView.count(
       // Items in row
@@ -147,6 +150,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 53, 53, 53),
+            // foregroundColor: const Color.fromARGB(1000, 236, 236, 236),
             leading: IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -155,7 +159,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
               },
               icon: const Icon(
                 Icons.arrow_back_rounded,
-                color: Colors.white70,
+                color: Color.fromARGB(1000, 236, 236, 236),
               ),
             ),
             title: IconButton(
@@ -164,10 +168,8 @@ class _MenuLatihanState extends State<MenuLatihan> {
                   showSearch(
                       context: context, delegate: CustomSearchDelegate());
                 },
-                icon: const Icon(
-                  Icons.search_outlined,
-                  color: Colors.white70,
-                )),
+                icon: const Icon(Icons.search_outlined,
+                    color: Color.fromARGB(1000, 236, 236, 236))),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
@@ -179,7 +181,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
                         padding: EdgeInsets.only(left: 20.0),
                         child: Icon(
                           Icons.arrow_drop_up_sharp,
-                          color: Colors.white70,
+                          color: Color.fromARGB(1000, 236, 236, 236),
                         ),
                       ),
                     ),
@@ -211,7 +213,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
                         padding: EdgeInsets.only(left: 20.0),
                         child: Icon(
                           Icons.arrow_drop_up_rounded,
-                          color: Colors.white70,
+                          color: const Color.fromARGB(255, 53, 53, 53),
                         ),
                       ),
                     ),
@@ -237,7 +239,7 @@ class _MenuLatihanState extends State<MenuLatihan> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.playlist_add_outlined,
-                    color: Colors.white70,
+                    color: Color.fromARGB(1000, 236, 236, 236),
                   )),
             ]),
         body: Center(

@@ -42,45 +42,9 @@ class _GerakanViewState extends State<GerakanView> {
                   backgroundColor: Colors.black38,
                 ),
                 child: GestureDetector(
-                  // onTap: () {
-                  //   this.insialisasiVideo();
-                  //   showDialog<String>(
-                  //     context: context,
-                  //     builder: (BuildContext context) => AlertDialog(
-                  //       title: const Text('AlertDialog Title'),
-                  //       content: Center(
-                  //           child: AspectRatio(
-                  //         aspectRatio: _controller.value.aspectRatio,
-                  //         child: Column(
-                  //           children: [
-                  //             Text('data'),
-                  //             Container(
-                  //                 height: 100, child: VideoPlayer(_controller)),
-                  //             Icon(Icons.play_arrow)
-                  //           ],
-                  //         ),
-                  //       )),
-                  //       actions: <Widget>[
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
-                  //           child: const Text('Cancel'),
-                  //         ),
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'OK'),
-                  //           child: const Text('OK'),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // },
-                  child: Hero(
-                    key: Key(
-                        'https://drive.google.com/uc?export=view&id=${snapshot.data!.body![index].gambar}'),
-                    tag: snapshot.data!.body![index].gerakan,
-                    child: Image.network(
-                      'https://drive.google.com/uc?export=view&id=${snapshot.data!.body![index].gambar}',
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.network(
+                    'https://drive.google.com/uc?export=view&id=${snapshot.data!.body![index].gambar}',
+                    fit: BoxFit.cover,
                   ),
                 ),
               );

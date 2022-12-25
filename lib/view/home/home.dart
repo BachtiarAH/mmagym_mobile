@@ -8,6 +8,7 @@ import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+// import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 
 class Home extends StatefulWidget {
@@ -167,13 +168,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "MMA GYM",
+          "AMM GYM",
           style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
-        foregroundColor: Colors.black,
+        foregroundColor: Color.fromARGB(1000, 236, 236, 236),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 53, 53, 53),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -195,16 +196,30 @@ class _HomeState extends State<Home> {
         children: [
           //menu latiha
           Container(
-            child: TextButton(
+            alignment: Alignment.centerLeft,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: const Color.fromARGB(255, 53, 53, 53),
+                // ButtonStyle(
+                //   backgroundColor: const Color.fromARGB(1000, 236, 236, 236),
+                //   shape: MaterialStateProperty.all(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => MenuLatihan(),
                 ));
               },
               child: Text(
-                "Main Menu",
-                style: TextStyle(fontSize: 20),
+                "Menu Latihan",
+                style: TextStyle(
+                    fontSize: 20, color: Color.fromARGB(1000, 236, 236, 236)),
+                textAlign: TextAlign.left,
               ),
+              // style: BoxBorder(),
             ),
           ),
           Container(
@@ -360,8 +375,8 @@ class _HomeState extends State<Home> {
               Container(
                   margin: EdgeInsets.only(left: 4.5.w, top: 2.h),
                   child: Text(
-                    "Jadual",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    "Jadwal",
+                    style: TextStyle(fontSize: 20, color: Colors.black87),
                   )),
             ],
           ),

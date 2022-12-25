@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter/src/widgets/container.dart';
+// import 'package:flutter/src/widgets/framework.dart';
 import 'package:mmagym_mobile/clien/AlatClient.dart';
 import 'package:mmagym_mobile/models/AlatModel.dart';
 
@@ -18,6 +18,7 @@ class _AlatState extends State<AlatView> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     model = client.getAlatAll();
@@ -35,9 +36,10 @@ class _AlatState extends State<AlatView> {
           onPressed: () {
             model = client.getAlatAll();
           },
-          icon: Icon(Icons.refresh),
+          icon: const Icon(Icons.refresh),
         ),
         FutureBuilder(
+          // return FutureBuilder(
           future: model,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -81,12 +83,12 @@ class _AlatState extends State<AlatView> {
                 child: Text(snapshot.error.toString()),
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
           },
-        ),
+        )
       ],
     );
   }
