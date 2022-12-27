@@ -8,6 +8,7 @@ import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
 import 'package:mmagym_mobile/view/register.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -23,8 +24,11 @@ class _LoginState extends State<Login> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   Widget ContentPopup = Text("Login");
+  
+
   //fungsi untuk login
   login({required email, required password}) async {
+    final pref = await SharedPreferences.getInstance();
     setState(() {
       ContentPopup = CircularProgressIndicator();
     });
@@ -35,6 +39,12 @@ class _LoginState extends State<Login> {
     });
     if (!model.status.isEmpty) {
       if (model.status == "login success") {
+        await pref.setInt("id", model.body[0].id);
+        await pref.setString("nama", model.body[0].nama);
+        await pref.setString("email", model.body[0].email);
+        await pref.setString("password", model.body[0].password);
+        await pref.setString("alamat", model.body[0].alamat);
+        print(pref.getString("nama").toString());
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => Home(),
         ));

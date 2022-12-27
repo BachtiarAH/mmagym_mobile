@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/models/UserModel.dart';
 import 'package:mmagym_mobile/view/login/login.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_area/text_area.dart';
 import 'package:web_date_picker/web_date_picker.dart';
 // import 'package:responsive';
@@ -19,29 +21,71 @@ class _ProfilState extends State<Profil> {
   double gap = 14;
   GlobalKey registerKey = GlobalKey();
 
+  late var UserMod = UserModel();
+
   var reasonValidation;
 
-  var KontrolerNama;
+  var KontrolerNama = TextEditingController();
 
-  var KontrolerEmail;
+  var KontrolerEmail= TextEditingController();
 
   DateTime? TanggalLahir;
 
-  var KontrolerAlamat;
+  var KontrolerAlamat= TextEditingController();
 
-  var KontrolerPassword;
+  var KontrolerPassword= TextEditingController();
 
-  var KontrolerConfirmPassword;
+  var KontrolerConfirmPassword= TextEditingController();
+
+  setModelWithPRef({required UserModel Usermodel})async{
+    final prefs = await SharedPreferences.getInstance();
+    print("pref : "+prefs.getString("nama").toString());
+    prefs.reload();
+    Usermodel.setId = prefs.getInt("id");
+    Usermodel.nama = prefs.getString("nama").toString();
+    Usermodel.email = prefs.getString("email").toString();
+    Usermodel.alamat = prefs.getString("alamat").toString();
+    Usermodel.password = prefs.getString("password").toString();
+  }
+
+  setKontrollerText(UserModel userModel){
+    print("seting controller");
+    KontrolerNama.text = userModel.nama;
+    KontrolerEmail.text = userModel.email;
+    KontrolerPassword.text = userModel.password;
+    KontrolerAlamat.text = userModel.alamat;
+    KontrolerConfirmPassword.text = userModel.password;
+    print("controller hasbeen set");
+  }
 
   //fungsi pilih agaman
   void _pilihGender(String value) {
+    
     setState(() {
       _gender = value;
     });
   }
 
+  mulai()async{
+    await setModelWithPRef(Usermodel: this.UserMod);
+    await setKontrollerText(this.UserMod);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // setModelWithPRef(Usermodel: this.UserMod);
+    setState(() {
+      mulai();
+    });
+    print(UserMod.nama);
+    print(KontrolerNama.text);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -94,56 +138,6 @@ class _ProfilState extends State<Profil> {
               Padding(padding: EdgeInsets.only(top: gap)),
 
               //row gender dan umur
-              Container(
-                alignment: Alignment.center,
-                // width: max,
-                height: 56,
-                margin: const EdgeInsets.symmetric(horizontal: 21),
-                child: Row(
-                  children: [
-                    //gender
-                    Container(
-                        // width: 105,
-
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color.fromARGB(28, 0, 0, 0)),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(255, 245, 245, 245),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        margin: const EdgeInsets.only(left: 17, right: 17),
-                        child: DropdownButton(
-                            // underline: null,
-                            style: TextStyle(decoration: TextDecoration.none),
-                            borderRadius: BorderRadius.circular(20),
-                            onChanged: (String? value) {
-                              _pilihGender(value!);
-                            },
-                            value: _gender,
-                            items: ["laki", "permepuan"].map((String? value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: Text(
-                                  value!,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList())),
-
-                    //tanggal lahir
-                    Container(
-                        alignment: Alignment.topRight,
-                        width: 200,
-                        // margin: const EdgeInsets.,
-                        child: Center(child: WebDatePicker(
-                          onChange: (value) {
-                            TanggalLahir = value;
-                          },
-                        )))
-                  ],
-                ),
-              ),
 
               //alamat
 

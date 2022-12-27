@@ -12,7 +12,7 @@ class LoginModel {
   static const Body defaultBody = Body();
 
     LoginModel({
-       required this.status,
+      required this.status,
       this.body = const [defaultBody],
       required this.message,
     });
