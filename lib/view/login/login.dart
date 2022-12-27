@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/clien/loginClient.dart';
 import 'package:mmagym_mobile/models/loginModel.dart';
@@ -18,24 +20,43 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   late LoginModel model;
   late loginClient client = new loginClient();
-  TextEditingController emailcontroller=TextEditingController();
-  TextEditingController passwordcontroller=TextEditingController();
-  Widget ContentPopup = CircularProgressIndicator();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  Widget ContentPopup = Text("Login");
   //fungsi untuk login
-  login({required email,required password})async{
-
+  login({required email, required password}) async {
+    setState(() {
+      ContentPopup = CircularProgressIndicator();
+    });
     //mengirim request login
-    this.model = await client.getlogin(email: email,password: password);
-
-    if(!model.status.isEmpty){
-      if(model.status=="login success"){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home(),));
-      }else{
-        print("message : "+model.message);
-        setState(() {
-          this.ContentPopup = Text(model.message);
-        });
+    this.model = await client.getlogin(email: email, password: password);
+    setState(() {
+      ContentPopup = Text("login");
+    });
+    if (!model.status.isEmpty) {
+      if (model.status == "login success") {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Home(),
+        ));
+      } else {
+        print("message : " + model.message);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("logoin gagal"),
+            content: Text(model.message),
+          ),
+        );
       }
+      
+    }else{
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("logoin gagal"),
+          content: Text("koneksi terganggu atau ada masalah lain"),
+        ),
+      );
     }
   }
 
@@ -114,7 +135,12 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPass()));},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgotPass()));
+                        },
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(color: Colors.black),
@@ -128,18 +154,11 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     String email = emailcontroller.text;
                     String password = passwordcontroller.text;
-                  if (_formKey.currentState!.validate()){
-                    showDialog(context: context, builder: (context) {
-                      return AlertDialog(
-                        title: Text('login in'),
-                        content: ContentPopup,
-                      );
-                    },);
-                    login(email: email, password: password);
-                  }
-                  
+                    if (_formKey.currentState!.validate()) {
+                      login(email: email, password: password);
+                    }
                   },
-                  child: Text("Login"),
+                  child: ContentPopup,
                   style: ElevatedButton.styleFrom(
                       primary: generateMaterialColor(
                           color: Color.fromARGB(255, 67, 67, 67)),

@@ -45,6 +45,11 @@ class _GerakanState extends State<Gerakan> {
                   child: Image.network(
                     'https://drive.google.com/uc?export=view&id=${snapshot.data!.body![index].gambar}',
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.image_not_supported),
+                      );
+                    },
                   ),
                 ),
               );

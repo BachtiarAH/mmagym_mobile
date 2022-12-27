@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mmagym_mobile/clien/AlatClient.dart';
+import 'package:mmagym_mobile/clien/GerakanClient.dart';
+import 'package:mmagym_mobile/models/AlatModel.dart';
+import 'package:mmagym_mobile/models/GerakanAlatModel.dart';
 
 class isimenulatihan extends StatefulWidget {
-  const isimenulatihan({super.key});
+  late int id_gerakan;
+  isimenulatihan({super.key, required this.id_gerakan});
 
   @override
-  State<isimenulatihan> createState() => _isimenulatihanState();
+  State<isimenulatihan> createState() =>
+      _isimenulatihanState(id_gerakan: id_gerakan);
 }
 
 class _isimenulatihanState extends State<isimenulatihan> {
+  late Future<GerakanAlatModel> modelGerakan;
+  late var clientGerakan = GerakanClient();
+  late AlatModel modelAlat;
+  late var clientAlat = AlatClient();
+
+  late int id_gerakan;
+
+  _isimenulatihanState({required this.id_gerakan});
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setModel();
+    super.initState();
+  }
+
+  setModel() async {
+    modelGerakan = clientGerakan.getGerakanByAlat(idAlat: id_gerakan);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +45,7 @@ class _isimenulatihanState extends State<isimenulatihan> {
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           "Dumbbel",
           style: TextStyle(
             fontSize: 22,
@@ -60,10 +86,75 @@ class _isimenulatihanState extends State<isimenulatihan> {
                       height: MediaQuery.of(context).size.height - 150,
                       color: const Color.fromARGB(255, 255, 255, 255),
                       child: FutureBuilder(
-                        future: modelGerakan,
-                        builder: (context, snapshot) {
-                         }
-                      )),
+                          future: modelGerakan,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (!snapshot.data!.body!.isEmpty) {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.body!.length,
+                                  itemBuilder: (context, index) {
+                                    if (snapshot.hasData) {
+                                      return ListTile(
+                                        leading: Image.network(
+                                          'https://drive.google.com/uc?export=view&id=${snapshot.data!.body![index].gambar}',
+                                        ),
+                                        title: Text(
+                                          snapshot.data!.body![index].nama,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        subtitle: const Text("10 kg"),
+                                        trailing: Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Column(
+                                            children: const [
+                                              Text('10 rep'),
+                                              Text('2 set')
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          print('object');
+                                        },
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Center(
+                                        child: Text("error : "),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  },
+                                );
+                              } else {
+                                return Center(
+                                  child: Text("no data"),
+                                );
+                              }
+                            } else if(snapshot.hasError){
+                              showDialog(context: context, builder: (context) {
+                                return AlertDialog(
+                                  content: Column(
+                                    children: [
+                                      Text("gerakan pada alat ini belum ditambahkan"),
+                                      ElevatedButton(onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }, child: Text("kembali ke menu utama"))
+                                    ],
+                                  ),
+                                );
+                              },
+                              );
+                              return Text("error");
+                            } else{
+
+                              return Center(child: CircularProgressIndicator(),);
+                            }
+                          })),
                 ],
               )
             ],

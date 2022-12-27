@@ -25,12 +25,14 @@ class AlatClient {
   }
 
   Future<AlatModel> getAlatAll() async {
-    var response = await http.get(Uri.parse(baseUrl + "/api/menu/all"));
+    var response = await http.get(Uri.parse(baseUrl + "api/alat/findAll "));
     AlatModel model = await AlatModel.fromJson(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
+      print(response);
       return model;
     } else {
+      print(response);
       throw http.ClientException;
     }
 
