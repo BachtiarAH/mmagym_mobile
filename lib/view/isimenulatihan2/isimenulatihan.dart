@@ -59,32 +59,10 @@ class _isimenulatihanState extends State<isimenulatihan> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height - 150,
                       color: const Color.fromARGB(255, 255, 255, 255),
-                      child: ListView.builder(
-                        itemCount: 18,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: const Icon(
-                              Icons.accessible_rounded,
-                              size: 50,
-                            ),
-                            title: const Text(
-                              "Brench Press",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                            subtitle: const Text("10 kg"),
-                            trailing: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: Column(
-                                children: const [Text('10 rep'), Text('2 set')],
-                              ),
-                            ),
-                            onTap: () {
-                              print('object');
-                            },
-                          );
-                        },
+                      child: FutureBuilder(
+                        future: modelGerakan,
+                        builder: (context, snapshot) {
+                         }
                       )),
                 ],
               )
