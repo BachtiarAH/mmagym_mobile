@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mmagym_mobile/view/home/home.dart';
+// import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/view/login/login.dart';
-import 'package:mmagym_mobile/view/menulatihan/menulatihan.dart';
+// import 'package:mmagym_mobile/view/menulatihan/menulatihan.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 

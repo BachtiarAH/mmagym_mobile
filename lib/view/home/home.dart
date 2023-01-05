@@ -3,13 +3,18 @@
 
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:mmagym_mobile/clien/JadwalClient.dart';
 import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
+import 'package:mmagym_mobile/clien/RiwayatClient.dart';
+import 'package:mmagym_mobile/models/JadwalModel.dart';
 import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
+import 'package:mmagym_mobile/models/RiwayatMode.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/home/QrScanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 // import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
 import 'package:mmagym_mobile/view/mainMenu/menu_latihan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,9 +24,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // int id;
+
   MenuLatihanClien restClient = MenuLatihanClien();
   var data = List<String>;
   late Future<MenuLatihanModel> MenuModel;
+
+  late Future<RiwayatModel> riwayatModel;
+  var riwayatClien = RiwayatCLient();
+
+  late Future<JadwalModel> jadwalModel;
+  var jadwalClient = JadwalClient();
 
   //dimensional
   double ContMenuLatHeigh = Adaptive.h(39.5);
@@ -43,7 +56,25 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     MenuModel = restClient.getMenuLatihan();
+    riwayatModel = getData();
+    jadwalModel = getJadwalModel();
+
     super.initState();
+  }
+
+  Future<RiwayatModel> getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return riwayatModel = riwayatClien.getRiwayat(id: prefs.getInt("id")).then(
+      (value) {
+        print("sudah diinisialisasi");
+        return value;
+      },
+    );
+  }
+
+  Future<JadwalModel> getJadwalModel() async {
+    final prefs = await SharedPreferences.getInstance();
+    return jadwalClient.getJadwal(id: prefs.getInt("id"));
   }
 
   Widget createCardMenuLatihan(
@@ -98,7 +129,7 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     partBadan,
-                    style:  TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 0.1 * CardMenuLatHeigh(),
                     ),
@@ -133,7 +164,8 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 child: Image.network(
-                    "https://drive.google.com/uc?export=view&id=$idFoto",scale: 1/1),
+                    "https://drive.google.com/uc?export=view&id=$idFoto",
+                    scale: 1 / 1),
               ),
             ),
           ),
@@ -144,7 +176,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    
+    getData();
 
     //data
     var data = ["Dada Menegah", "Dada lanjutan", "dada pemula"];
@@ -250,7 +282,7 @@ class _HomeState extends State<Home> {
                                   level: snapshot.data!.body[index].level,
                                   partBadan:
                                       snapshot.data!.body[index].bodyPart,
-                                      idFoto: snapshot.data!.body[index].gambar);
+                                  idFoto: snapshot.data!.body[index].gambar);
                             },
                           );
                         } else if (snapshot.hasError) {
@@ -289,78 +321,29 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: hari.length,
-                  itemBuilder: (context, index) {
-                    return Column(
+                child: FutureBuilder(
+                  future: jadwalModel,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView(
+                      scrollDirection: Axis.horizontal,
                       children: [
-                        const SizedBox(
-                          height: 57,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: 3.w),
-                            width: CardJadualWidth(),
-                            height: CardJadualHeigh(),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 5,
-                                    color: Color(0xE6E6E6E6),
-                                  ),
-                                  BoxShadow(
-                                    offset: Offset(1, 2),
-                                    blurRadius: 5,
-                                    spreadRadius: 2,
-                                    color: Colors.grey,
-                                    inset: false,
-                                  ),
-                                ]),
-                            child: Stack(
-                              children: [
-                                //gambar
-                                Positioned.fill(
-                                  child: FlutterLogo(size: 113),
-                                ),
-
-                                //menu latihan
-                                Positioned(
-                                  // left: CardJadualWidth * 50/100,
-                                  bottom: 2,
-                                  child: Container(
-                                    alignment: Alignment.bottomCenter,
-                                    width: CardJadualWidth(),
-                                    child: Text(
-                                      hari[index][1],
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                //hari
-                                Positioned(
-                                  child: Container(
-                                    alignment: Alignment.topCenter,
-                                    child: Text(
-                                      hari[index][0],
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )),
+                        createJadwal(hari: "Minggu", MenuLatiahan: snapshot.data!.jadwal.minggu.toString()),
+                        createJadwal(hari: "Senin", MenuLatiahan: snapshot.data!.jadwal.senin.toString()),
+                        createJadwal(hari: "Selasa", MenuLatiahan: snapshot.data!.jadwal.selasa.toString()),
+                        createJadwal(hari: "Rabu", MenuLatiahan: snapshot.data!.jadwal.rabu.toString()),
+                        createJadwal(hari: "Kamis", MenuLatiahan: snapshot.data!.jadwal.kamis.toString()),
+                        createJadwal(hari: "Jumat", MenuLatiahan: snapshot.data!.jadwal.jumat.toString()),
+                        createJadwal(hari: "Sabtu", MenuLatiahan: snapshot.data!.jadwal.sabtu.toString())
                       ],
                     );
-                  },
+                    } else if(snapshot.hasError) {
+                      print(snapshot.error.toString());
+                      return Center(child: Text(snapshot.error.toString()),);
+                    }else{
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }
                 ),
               ),
               Container(
@@ -396,35 +379,104 @@ class _HomeState extends State<Home> {
                     inset: true,
                   )
                 ]),
-            child: ListView.builder(
-              itemCount: Riwayat.length + 1,
-              itemBuilder: (context, index) {
-                if (index < 1) {
-                  return Container(
-                      margin: EdgeInsets.only(left: 4.5.w, top: 2.h),
-                      child: Text(
-                        "Riwayat Latihan",
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ));
-                } else {
-                  return ListTile(
-                    
-                    leading: FlutterLogo(size: 40),
-                    title: Text(Riwayat[index - 1][1]),
-                    subtitle: Text(Riwayat[index - 1][2]),
-                    trailing: Column(
-                      children: [
-                        Text(Riwayat[index - 1][3]),
-                        Text(Riwayat[index - 1][4])
-                      ],
-                    ),
+            child: FutureBuilder(
+                future: riwayatModel,
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.body!.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < 1) {
+                        return Container(
+                            margin: EdgeInsets.only(left: 4.5.w, top: 2.h),
+                            child: Text(
+                              "Riwayat Latihan",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
+                            ));
+                      } else {
+                        return ListTile(
+                          leading: FlutterLogo(size: 40),
+                          title: Text(snapshot.data!.body![index - 1].gerakan),
+                          subtitle:
+                              Text(snapshot.data!.body![index - 1].gerakan),
+                        );
+                      }
+                    },
                   );
-                }
-              },
-            ),
+                }),
           )
         ],
       ),
+    );
+  }
+
+  createJadwal({required hari, required MenuLatiahan}) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 57,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Container(
+            margin: EdgeInsets.symmetric(horizontal: 3.w),
+            width: CardJadualWidth(),
+            height: CardJadualHeigh(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 5,
+                    color: Color(0xE6E6E6E6),
+                  ),
+                  BoxShadow(
+                    offset: Offset(1, 2),
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                    color: Colors.grey,
+                    inset: false,
+                  ),
+                ]),
+            child: Stack(
+              children: [
+                //gambar
+                Positioned.fill(
+                  child: FlutterLogo(size: 113),
+                ),
+
+                //menu latihan
+                Positioned(
+                  // left: CardJadualWidth * 50/100,
+                  bottom: 2,
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    width: CardJadualWidth(),
+                    child: Text(
+                      hari,
+                      style: TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
+
+                //hari
+                Positioned(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      MenuLatiahan,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
+      ],
     );
   }
 }

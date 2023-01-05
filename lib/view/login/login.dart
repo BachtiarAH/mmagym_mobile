@@ -1,12 +1,11 @@
-
-
+// import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/clien/loginClient.dart';
 import 'package:mmagym_mobile/models/loginModel.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/forgotpassword/forgotpassword.dart';
 import 'package:mmagym_mobile/view/register.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+// import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
