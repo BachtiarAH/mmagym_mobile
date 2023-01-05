@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mmagym_mobile/view/home/home.dart';
 import 'package:mmagym_mobile/view/login/login.dart';
+import 'package:mmagym_mobile/view/menulatihan/menulatihan.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (p0, p1, p2) {
-      return const MaterialApp(
+      return MaterialApp(
         
       debugShowCheckedModeBanner: false,
       title: "MMA Gym",

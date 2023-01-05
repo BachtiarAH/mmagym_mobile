@@ -1,7 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:mmagym_mobile/clien/UserClient.dart';
+import 'package:mmagym_mobile/models/StatusMessage.dart';
 import 'package:mmagym_mobile/models/UserModel.dart';
 import 'package:mmagym_mobile/view/login/login.dart';
 import 'package:mmagym_mobile/view/template/Componen.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_area/text_area.dart';
 import 'package:web_date_picker/web_date_picker.dart';
@@ -20,6 +25,8 @@ class _ProfilState extends State<Profil> {
   String _gender = "laki";
   double gap = 14;
   GlobalKey registerKey = GlobalKey();
+  late StatusMessage model;
+  late UserClient client = UserClient();
 
   late var UserMod = UserModel();
 
@@ -27,19 +34,84 @@ class _ProfilState extends State<Profil> {
 
   var KontrolerNama = TextEditingController();
 
-  var KontrolerEmail= TextEditingController();
+  var KontrolerEmail = TextEditingController();
 
   DateTime? TanggalLahir;
 
-  var KontrolerAlamat= TextEditingController();
+  var KontrolerAlamat = TextEditingController();
 
-  var KontrolerPassword= TextEditingController();
+  var KontrolerPassword = TextEditingController();
 
-  var KontrolerConfirmPassword= TextEditingController();
+  var KontrolerConfirmPassword = TextEditingController();
 
-  setModelWithPRef({required UserModel Usermodel})async{
+  ediData(
+      {required nama,
+      required email,
+      required password,
+      required alamat}) async {
+    model = await client.EditDataUser(
+        id: UserMod.id,
+        nama: nama,
+        email: email,
+        password: password,
+        alamat: alamat);
+  }
+
+  setModelWithController() {
+    UserMod.nama = KontrolerNama.text;
+    UserMod.email = KontrolerEmail.text;
+    UserMod.alamat = KontrolerAlamat.text;
+    UserMod.password = KontrolerPassword.text;
+  }
+
+  saveProfil() async {
     final prefs = await SharedPreferences.getInstance();
-    print("pref : "+prefs.getString("nama").toString());
+    print(prefs.getInt("id"));
+    model = await client.EditDataUser(
+            id: prefs.getInt("id")!,
+            nama: KontrolerNama.text,
+            email: KontrolerEmail.text,
+            password: KontrolerPassword.text,
+            alamat: KontrolerAlamat.text)
+        .then(
+      (value) {
+        print(value.message);
+        if (value.status == "succes") {
+          setPref(
+              nama: KontrolerNama.text,
+              email: KontrolerEmail.text,
+              password: KontrolerPassword.text,
+              alamat: KontrolerAlamat.text);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                
+                content: Text("data berhasil disimpan"),
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(value.message.toString()),
+              );
+            },
+          );
+        }
+
+        return value;
+      },
+    );
+
+    ;
+  }
+
+  setModelWithPRef({required UserModel Usermodel}) async {
+    final prefs = await SharedPreferences.getInstance();
+    print("pref : " + prefs.getString("nama").toString());
     prefs.reload();
     Usermodel.setId = prefs.getInt("id");
     Usermodel.nama = prefs.getString("nama").toString();
@@ -48,7 +120,7 @@ class _ProfilState extends State<Profil> {
     Usermodel.password = prefs.getString("password").toString();
   }
 
-  setKontrollerText(UserModel userModel){
+  setKontrollerText(UserModel userModel) {
     print("seting controller");
     KontrolerNama.text = userModel.nama;
     KontrolerEmail.text = userModel.email;
@@ -58,15 +130,26 @@ class _ProfilState extends State<Profil> {
     print("controller hasbeen set");
   }
 
+  setPref(
+      {required nama,
+      required email,
+      required password,
+      required alamat}) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString("nama", nama);
+    await pref.setString("email", email);
+    await pref.setString("password", password);
+    await pref.setString("alamat", alamat);
+  }
+
   //fungsi pilih agaman
   void _pilihGender(String value) {
-    
     setState(() {
       _gender = value;
     });
   }
 
-  mulai()async{
+  mulai() async {
     await setModelWithPRef(Usermodel: this.UserMod);
     await setKontrollerText(this.UserMod);
   }
@@ -85,7 +168,6 @@ class _ProfilState extends State<Profil> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -94,10 +176,15 @@ class _ProfilState extends State<Profil> {
             "Profil",
             style: TextStyle(color: Colors.black, fontSize: 20),
           ),
-          actions: [IconButton(onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: 
-            (context) => Login(),));
-          }, icon: Icon(Icons.logout))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ));
+                },
+                icon: Icon(Icons.logout))
+          ],
         ),
         backgroundColor: Colors.white,
         body: Form(
@@ -162,10 +249,8 @@ class _ProfilState extends State<Profil> {
 
               //form password
               Container(
-                  
                   margin: const EdgeInsets.symmetric(horizontal: 21),
                   child: TextField(
-                    
                     controller: KontrolerPassword,
                     obscureText: true,
                     decoration:
@@ -191,8 +276,11 @@ class _ProfilState extends State<Profil> {
                 margin: EdgeInsets.symmetric(horizontal: 21),
                 decoration: BoxDecoration(),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF434343)),
-                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF434343)),
+                  onPressed: () {
+                    saveProfil();
+                  },
                   child: Text("Save"),
                 ),
               )

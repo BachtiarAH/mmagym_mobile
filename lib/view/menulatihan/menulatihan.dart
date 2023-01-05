@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
 import 'package:mmagym_mobile/clien/isiMenuLatihanClient.dart';
 import 'package:mmagym_mobile/models/IsiMenuModel.dart';
+import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/menulatihan/videoPlayer2.dart';
 import 'package:video_player/video_player.dart';
 
 class menulatihan extends StatefulWidget {
   var idMenu;
-  
-  menulatihan({super.key,required this.idMenu});
 
+  menulatihan({super.key, required this.idMenu});
 
   @override
   State<menulatihan> createState() => _menulatihanState(idMenu);
@@ -21,13 +22,17 @@ class menulatihan extends StatefulWidget {
 class _menulatihanState extends State<menulatihan> {
   String? _valhari;
   late Future<IsiMenu> model;
+  // late Future<MenuLatihanModel> modelMenu;
+  // late IsiMenu modelNF;
+  // late MenuLatihanClien clientMenu = new MenuLatihanClien();
   late IsiMEnuLatihanClient client = new IsiMEnuLatihanClient();
   late String idVideo = '';
   late videoPlayer2 video;
   late var _idMenu;
-  late VideoPlayerController _controller ;
+  late VideoPlayerController _controller;
+  bool videoIsInitilized = false;
 
-  _menulatihanState(id_menu){
+  _menulatihanState(id_menu) {
     this._idMenu = id_menu;
   }
 
@@ -39,31 +44,45 @@ class _menulatihanState extends State<menulatihan> {
     "JUMAT",
     "SABTU",
     "MINGGU"
-    "MINGGU"
+        "MINGGU"
   ];
 
   @override
   void initState() {
     // TODO: implement initState
-    model = client.getIsiMenu(idMenu: this._idMenu);
+    // modelMenu = clientMenu.getMenuLatihan();
+
+    model = client.getIsiMenu(idMenu: this._idMenu).then((value) {
+      if (value.status!.isNotEmpty) {
+        if (value.status == "oke") {
+          awalController(
+              "https://drive.google.com/uc?export=view&id=${value.body.isi[0].video}");
+        }
+      } else {}
+      return value;
+    });
+
+    // awalController(" https://drive.google.com/uc?export=view&id=${model.body.isi[0].video}");
     super.initState();
   }
 
-  awalController(source){
+  awalController(source) {
     _controller = VideoPlayerController.network(source)
-        ..initialize().then((_) {
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {});
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {
+          videoIsInitilized = true;
         });
+      });
   }
 
   gantiVideo(String source) {
-      _controller = VideoPlayerController.network(source)
-        ..initialize().then((_) {
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {});
-        });
-    }
+    _controller = VideoPlayerController.network(source)
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +205,7 @@ class _menulatihanState extends State<menulatihan> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: Row(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsets.only(
                                         right: 10,
                                       ),
@@ -228,8 +247,15 @@ class _menulatihanState extends State<menulatihan> {
             future: model,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                awalController("https://drive.google.com/uc?export=view&id="+snapshot.data!.body.isi[0].video);
-                return VideoPlayer(_controller);
+                awalController(snapshot.data!.body.isi[0].video);
+                if (videoIsInitilized) {
+                  setState(() {
+                    
+                  });
+                  return VideoPlayer(_controller);
+                } else {
+                  return Center(child: Text("tdak ada video"));
+                }
               } else if (snapshot.hasError) {
                 print(snapshot.error);
                 return Container(
@@ -254,191 +280,43 @@ class _menulatihanState extends State<menulatihan> {
             width: MediaQuery.of(context).size.width,
             height: 302,
             // height: MediaQuery.of(context).size.height,
-            child: ListView(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
+            child: FutureBuilder(
+                future: model,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.body.isi.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: Image.network(
+                            "https://drive.google.com/uc?export=view&id=${snapshot.data!.body.isi[index].gambar}",
                           ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
+                          title:
+                              Text(snapshot.data!.body.isi[index].namaGerakan),
+                          subtitle: Text(snapshot.data!.body.isi[index].note),
+                          trailing: Column(
+                            children: [
+                              Text(
+                                  "repetisi : ${snapshot.data!.body.isi[index].repetisi}"),
+                              Text(
+                                  "set : ${snapshot.data!.body.isi[index].setLatihan}")
+                            ],
                           ),
-                        ],
-                      ),
-                      // child: Text(
-                      //   "Bench Press",
-                      //   style: TextStyle(
-                      //     fontWeight: FontWeight.bold,
-                      //     fontSize: 20 ),
-                      // ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(Icons.accessibility_new_sharp),
-                          ),
-                          Text(
-                            "Brench Press",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                        );
+                      },
+                    );
+                  } else if(snapshot.hasError){
+                    print("error in listtile isi menu latihan coused by :${snapshot.error}");
+                    showDialog(context: context, builder: (context) {
+                      return AlertDialog(
+                        content: Text("ada yang salah"),
+                      );
+                    },);
+                    return Center(child: CircularProgressIndicator(),);
+                  }else{
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                }),
           )
         ],
       ),

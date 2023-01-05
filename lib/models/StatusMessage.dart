@@ -11,15 +11,20 @@ String statusMessageToJson(StatusMessage data) => json.encode(data.toJson());
 class StatusMessage {
     StatusMessage({
         required this.status,
-        required this.message,
+        this.message,
     });
 
     String status;
-    String message;
+    String? message = "";
 
     factory StatusMessage.fromJson(Map<String, dynamic> json) => StatusMessage(
         status: json["status"],
         message: json["message"],
+    );
+
+    
+    factory StatusMessage.fromJsonstOnly(Map<String, dynamic> json) => StatusMessage(
+        status: json["status"],
     );
 
     Map<String, dynamic> toJson() => {

@@ -46,101 +46,105 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Widget createCardMenuLatihan(
+      {required id,
+      required String NamaMenu,
+      required String level,
+      required String partBadan,
+      required String idFoto}) {
+    return Container(
+      margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
+      height: CardMenuLatHeigh(),
+      width: CardMenuLatihanWidth,
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
+            width: CardMenuLatihanWidth,
+            height: CardMenuLatHeigh(),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(0),
+                bottomLeft: Radius.circular(5),
+                bottomRight: Radius.circular(0),
+              ),
+              color: Color(0xff434343),
+            ),
+            padding: const EdgeInsets.only(
+              left: 111,
+              right: 4,
+              top: 10,
+              bottom: 9,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  width: CardMenuLatihanWidth - CardMenuLatHeigh(),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    NamaMenu,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                SizedBox(height: CardMenuLatHeigh() * 20 / 100),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    partBadan,
+                    style:  TextStyle(
+                      color: Colors.white,
+                      fontSize: 0.1 * CardMenuLatHeigh(),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 0.1 * CardMenuLatHeigh()),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    level,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 0.1 * CardMenulatihanImgHigh(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: CardMenuLatHeigh(),
+                height: CardMenuLatHeigh(),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(0),
+                  ),
+                ),
+                child: Image.network(
+                    "https://drive.google.com/uc?export=view&id=$idFoto",scale: 1/1),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget createCardMenuLatihan(
-        {required id,
-        required String NamaMenu,
-        required String level,
-        required String partBadan}) {
-      return Container(
-        margin: EdgeInsets.only(left: 4.5.w, top: 3.h),
-        height: CardMenuLatHeigh(),
-        width: CardMenuLatihanWidth,
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Container(
-              width: CardMenuLatihanWidth,
-              height: CardMenuLatHeigh(),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(0),
-                  bottomLeft: Radius.circular(5),
-                  bottomRight: Radius.circular(0),
-                ),
-                color: Color(0xff434343),
-              ),
-              padding: const EdgeInsets.only(
-                left: 111,
-                right: 4,
-                top: 10,
-                bottom: 9,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    width: CardMenuLatihanWidth - CardMenuLatHeigh(),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      NamaMenu,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: CardMenuLatHeigh() * 40 / 100),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      partBadan,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 13),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      level,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: CardMenuLatHeigh(),
-                  height: CardMenuLatHeigh(),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(0),
-                    ),
-                  ),
-                  child: const FlutterLogo(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    
 
     //data
     var data = ["Dada Menegah", "Dada lanjutan", "dada pemula"];
@@ -245,7 +249,8 @@ class _HomeState extends State<Home> {
                                   NamaMenu: snapshot.data!.body[index].nama,
                                   level: snapshot.data!.body[index].level,
                                   partBadan:
-                                      snapshot.data!.body[index].bodyPart);
+                                      snapshot.data!.body[index].bodyPart,
+                                      idFoto: snapshot.data!.body[index].gambar);
                             },
                           );
                         } else if (snapshot.hasError) {

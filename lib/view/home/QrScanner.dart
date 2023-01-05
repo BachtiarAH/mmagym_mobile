@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mmagym_mobile/view/isimenulatihan2/isimenulatihan.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +58,7 @@ class QrScanner extends StatelessWidget {
               } else {
                 final String code = barcode.rawValue!;
                 debugPrint('Barcode found! $code');
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => isimenulatihan(id_gerakan: int.parse(code)),));
                 
               }
             }));
