@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mmagym_mobile/models/IsiMenuModel.dart';
 
 class IsiMEnuLatihanClient extends BaseClient {
-  Future<IsiMenu> getIsiMenu({idMenu = 1}) async {
+  Future<RincianMenuModel> getIsiMenu({idMenu = 1}) async {
     print(baseUrl);
     var headers = {'Content-Type': 'application/json; charset=UTF-8'};
     var body = json.encode({"id_menu": idMenu});
@@ -23,7 +23,7 @@ class IsiMEnuLatihanClient extends BaseClient {
 
     if (response.statusCode == 200) {
       print(await response.body);
-      return IsiMenu.fromJson(jsonDecode(response.body));
+      return RincianMenuModel.fromJson(jsonDecode(response.body));
     } else {
       print(response.reasonPhrase);
       throw http.ClientException;

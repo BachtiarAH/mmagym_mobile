@@ -1,23 +1,23 @@
 // To parse this JSON data, do
 //
-//     final isiMenu = isiMenuFromJson(jsonString);
+//     final rincianMenuModel = rincianMenuModelFromJson(jsonString);
 
 import 'dart:convert';
 
-IsiMenu isiMenuFromJson(String str) => IsiMenu.fromJson(json.decode(str));
+RincianMenuModel rincianMenuModelFromJson(String str) => RincianMenuModel.fromJson(json.decode(str));
 
-String isiMenuToJson(IsiMenu data) => json.encode(data.toJson());
+String rincianMenuModelToJson(RincianMenuModel data) => json.encode(data.toJson());
 
-class IsiMenu {
-    IsiMenu({
-        this.status,
+class RincianMenuModel {
+    RincianMenuModel({
+        required this.status,
         required this.body,
     });
 
-    String? status;
+    String status;
     Body body;
 
-    factory IsiMenu.fromJson(Map<String, dynamic> json) => IsiMenu(
+    factory RincianMenuModel.fromJson(Map<String, dynamic> json) => RincianMenuModel(
         status: json["status"],
         body: Body.fromJson(json["body"]),
     );
@@ -50,31 +50,41 @@ class Body {
 
 class Header {
     Header({
+        required this.id,
         required this.namaMenuLatihan,
         required this.headerPart,
         required this.level,
+        required this.gambar,
     });
 
+    int id;
     String namaMenuLatihan;
     String headerPart;
     String level;
+    String gambar;
 
     factory Header.fromJson(Map<String, dynamic> json) => Header(
+        id: json["id"],
         namaMenuLatihan: json["nama_menu_latihan"],
         headerPart: json["part"],
         level: json["level"],
+        gambar: json["gambar"],
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
         "nama_menu_latihan": namaMenuLatihan,
         "part": headerPart,
         "level": level,
+        "gambar": gambar,
     };
 }
 
 class Isi {
     Isi({
-        required  this.namaGerakan,
+        required this.id,
+        required this.idGerakan,
+        required this.namaGerakan,
         required this.gambar,
         required this.repetisi,
         required this.setLatihan,
@@ -82,6 +92,8 @@ class Isi {
         required this.note,
     });
 
+    int id;
+    int idGerakan;
     String namaGerakan;
     String gambar;
     int repetisi;
@@ -90,6 +102,8 @@ class Isi {
     String note;
 
     factory Isi.fromJson(Map<String, dynamic> json) => Isi(
+        id: json["id"],
+        idGerakan: json["id_gerakan"],
         namaGerakan: json["nama_gerakan"],
         gambar: json["gambar"],
         repetisi: json["repetisi"],
@@ -99,6 +113,8 @@ class Isi {
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
+        "id_gerakan": idGerakan,
         "nama_gerakan": namaGerakan,
         "gambar": gambar,
         "repetisi": repetisi,

@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mmagym_mobile/clien/JadwalClient.dart';
 import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
+import 'package:mmagym_mobile/clien/RiwayatClient.dart';
 import 'package:mmagym_mobile/clien/isiMenuLatihanClient.dart';
 import 'package:mmagym_mobile/models/IsiMenuModel.dart';
 import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
@@ -24,7 +25,7 @@ class menulatihan extends StatefulWidget {
 
 class _menulatihanState extends State<menulatihan> {
   String? _valhari;
-  late Future<IsiMenu> model;
+  late Future<RincianMenuModel> model;
   // late Future<MenuLatihanModel> modelMenu;
   // late IsiMenu modelNF;
   // late MenuLatihanClien clientMenu = new MenuLatihanClien();
@@ -37,6 +38,7 @@ class _menulatihanState extends State<menulatihan> {
 
   late StatusMessage modelSt;
   JadwalClient jadwalClient = JadwalClient();
+  RiwayatCLient riwayatCLient = RiwayatCLient();
 
   _menulatihanState(id_menu) {
     this._idMenu = id_menu;
@@ -45,6 +47,11 @@ class _menulatihanState extends State<menulatihan> {
   tambahKejadwal({required hari})async{
     final prefs = await SharedPreferences.getInstance();
     modelSt = await jadwalClient.tambahJadwal(hari: hari, idUser: prefs.getInt("id"), idMenu: _idMenu);
+  }
+
+  tambahKeRiwayat({required idGerakan})async{
+    final prefs = await SharedPreferences.getInstance();
+    modelSt = await riwayatCLient.addRiwayat(idUser: prefs.getInt("id"), idGerakan: idGerakan);
   }
 
   final List _listhari = [
@@ -310,6 +317,9 @@ class _menulatihanState extends State<menulatihan> {
                                   "set : ${snapshot.data!.body.isi[index].setLatihan}")
                             ],
                           ),
+                          onTap: () {
+                            tambahKeRiwayat(idGerakan: snapshot.data!.body.isi[index].idGerakan);
+                          },
                         );
                       },
                     );
