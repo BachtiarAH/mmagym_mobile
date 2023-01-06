@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mmagym_mobile/clien/JadwalClient.dart';
 import 'package:mmagym_mobile/clien/MenuLatihanClient.dart';
 import 'package:mmagym_mobile/clien/isiMenuLatihanClient.dart';
 import 'package:mmagym_mobile/models/IsiMenuModel.dart';
 import 'package:mmagym_mobile/models/MenuLatihanModel.dart';
+import 'package:mmagym_mobile/models/StatusMessage.dart';
 import 'package:mmagym_mobile/view/home/Profil.dart';
 import 'package:mmagym_mobile/view/menulatihan/videoPlayer2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class menulatihan extends StatefulWidget {
@@ -32,19 +35,26 @@ class _menulatihanState extends State<menulatihan> {
   late VideoPlayerController _controller;
   bool videoIsInitilized = false;
 
+  late StatusMessage modelSt;
+  JadwalClient jadwalClient = JadwalClient();
+
   _menulatihanState(id_menu) {
     this._idMenu = id_menu;
   }
 
+  tambahKejadwal({required hari})async{
+    final prefs = await SharedPreferences.getInstance();
+    modelSt = await jadwalClient.tambahJadwal(hari: hari, idUser: prefs.getInt("id"), idMenu: _idMenu);
+  }
+
   final List _listhari = [
-    "SENIN",
-    "SELASA",
-    "RABU",
-    "KAMIS",
-    "JUMAT",
-    "SABTU",
-    "MINGGU"
-        "MINGGU"
+    "senin",
+    "selasa",
+    "rabu",
+    "kamis",
+    "jumat",
+    "sabtu",
+    "minggu"
   ];
 
   @override
@@ -115,9 +125,7 @@ class _menulatihanState extends State<menulatihan> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  // setState(() {
-                  //   _valhari = value as String?;
-                  // });
+                  tambahKejadwal(hari: value);
                 },
               ),
             ],

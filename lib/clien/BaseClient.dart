@@ -3,7 +3,7 @@
 import "package:http/http.dart" as http;
 
 
-var ip = '192.168.1.14';
+var ip = '192.168.189.62';
 var baseUrl = "http://$ip/mmagym/src/public/";
 
 class BaseClient {
